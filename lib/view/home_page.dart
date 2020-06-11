@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -7,10 +6,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-    ),
+  static List<Widget> _widgetOptions = <Widget>[
     Text(
       'Index 1: Business',
     ),
@@ -18,31 +14,39 @@ class _HomePageState extends State<HomePage> {
       'Index 2: School',
     ),
   ];
+
   int _selectedIndex = 0;
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
+
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             title: Text('Home'),
           ),
+
           BottomNavigationBarItem(
             icon: Icon(Icons.business),
             title: Text('Business'),
           ),
+
           BottomNavigationBarItem(
             icon: Icon(Icons.school),
             title: Text('School'),
           ),
+
         ],
+
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
