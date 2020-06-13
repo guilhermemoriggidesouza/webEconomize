@@ -4,17 +4,17 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:webEconomize/controller/sessions/SessionLogin.dart';
 import 'package:webEconomize/controller/sessions/SessionSalario.dart';
-import 'package:webEconomize/view/home_page.dart';
+import 'package:webEconomize/view/main_page.dart';
 
 void main() => runApp(
   MultiProvider(  
     providers: [
-        ChangeNotifierProvider(create: (_) => SessionLogin()),
-        ChangeNotifierProvider(create: (_) => SessionSalario()),
-      ],
-      child: MyApp(),
-    ),
-  );
+      ChangeNotifierProvider<SessionLogin>(create: (_) => SessionLogin()),
+      ChangeNotifierProvider<SessionSalario>(create: (_) => SessionSalario()),
+    ],
+    child: MyApp(),
+  ),
+);
 
 class MyApp extends StatelessWidget {
 
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       title: 'Economize',
       theme: ThemeData(primarySwatch: Colors.deepPurple),
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: MainPage(),
       localizationsDelegates: [GlobalMaterialLocalizations.delegate, 
         GlobalWidgetsLocalizations.delegate, 
         GlobalCupertinoLocalizations.delegate],
