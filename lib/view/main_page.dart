@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:webEconomize/controller/LoginController.dart';
 import 'package:webEconomize/controller/sessions/SessionLogin.dart';
+import 'package:webEconomize/custom/exit.dart';
+import 'package:webEconomize/custom/metas.dart';
+import 'package:webEconomize/custom/poupanca.dart';
+import 'package:webEconomize/custom/power.dart';
 import 'package:webEconomize/view/home.dart';
 import 'package:webEconomize/view/metas.dart';
 import 'package:webEconomize/view/mov_saida.dart';
@@ -52,8 +56,8 @@ class _MainPageState extends State<MainPage> {
           ),
 
           BottomNavigationBarItem(
-            icon: Icon(Icons.school, color: Colors.white30),
-            activeIcon: Icon(Icons.school, color: Colors.white),
+            icon: Icon(Exit.icon_ionic_md_exit, color: Colors.white30),
+            activeIcon: Icon(Exit.icon_ionic_md_exit, color: Colors.white),
             backgroundColor: Color(0xff141F27),
             title: Text(
               'Mov Saida',
@@ -64,8 +68,8 @@ class _MainPageState extends State<MainPage> {
           ),
 
           BottomNavigationBarItem(
-            icon: Icon(Icons.school, color: Colors.white30),
-            activeIcon: Icon(Icons.school, color: Colors.white),
+            icon: Icon(Icons.attach_money, color: Colors.white30),
+            activeIcon: Icon(Icons.attach_money, color: Colors.white),
             backgroundColor: Color(0xff141F27),
             title: Text(
               'Salario',
@@ -76,8 +80,8 @@ class _MainPageState extends State<MainPage> {
           ),
 
           BottomNavigationBarItem(
-            icon: Icon(Icons.school, color: Colors.white30),
-            activeIcon: Icon(Icons.school, color: Colors.white),
+            icon: Icon(MetasIcons.album, color: Colors.white30),
+            activeIcon: Icon(MetasIcons.album, color: Colors.white),
             backgroundColor: Color(0xff141F27),
             title: Text(
               'Metas',
@@ -88,8 +92,8 @@ class _MainPageState extends State<MainPage> {
           ),
 
           BottomNavigationBarItem(
-            icon: Icon(Icons.school, color: Colors.white30),
-            activeIcon: Icon(Icons.school, color: Colors.white),
+            icon: Icon(PoupancaIcons.account_balance, color: Colors.white30),
+            activeIcon: Icon(PoupancaIcons.account_balance, color: Colors.white),
             backgroundColor: Color(0xff141F27),
             title: Text(
               'Poupanca',
@@ -125,7 +129,7 @@ class _MainPageState extends State<MainPage> {
             onPressed: () => {},
             child: Row( // Replace with a Row for horizontal icon + text                  
               children: <Widget>[
-                Icon(Icons.alarm_off, color: Colors.white,),
+                Icon(Power.icon_awesome_power_off, color: Colors.white,),
                 Container(
                   padding: EdgeInsets.only(left: 10),
                   child:  Text(

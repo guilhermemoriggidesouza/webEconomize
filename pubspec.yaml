@@ -38,10 +38,10 @@ flutter:
     fonts:
     - asset: lib/fonts/exit.ttf
 
-  - family: Poupanca
+  - family: PoupancaIcons
     fonts:
     - asset: lib/fonts/poupanca.ttf
 
-  - family: Metas
+  - family: MetasIcons
     fonts:
     - asset: lib/fonts/metas.ttf
