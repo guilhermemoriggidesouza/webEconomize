@@ -9,4 +9,10 @@ class SessionLogin with ChangeNotifier{
     nome = nomeParam;
     notifyListeners();
   }
+
+  gerarSessionLogin(idLoginParams, nome){
+    idLogin = idLoginParams;
+    nome = nome;
+    notifyListeners();
+  }
 }

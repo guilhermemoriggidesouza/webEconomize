@@ -4,9 +4,14 @@ import 'package:provider/provider.dart';
 import 'sessions/SessionLogin.dart';
 
 class LoginController with ChangeNotifier{
+  String email = "";
+  String senha = "";
 
-  mudarNomeSessaoLogin(context){
-    Provider.of<SessionLogin>(context).changeNome('Richard pionto');
+  bool validarLogin(context){
+    print(email);
+    print(senha);
+
+    Provider.of<SessionLogin>(context, listen: false).gerarSessionLogin(1, "Guilherme");
+    return true;
   }
-
 }

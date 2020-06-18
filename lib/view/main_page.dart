@@ -9,6 +9,7 @@ import 'package:webEconomize/custom/power.dart';
 import 'package:webEconomize/view/home.dart';
 import 'package:webEconomize/view/metas.dart';
 import 'package:webEconomize/view/mov_saida.dart';
+import 'package:webEconomize/view/Login.dart';
 import 'package:webEconomize/view/poupanca.dart';
 import 'package:webEconomize/view/salario.dart';
 
@@ -35,91 +36,67 @@ class _MainPageState extends State<MainPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
-      bottomNavigationBar: BottomNavigationBar(
+  Widget build(BuildContext context) {  
+    return _buildScreen();
+  }
+
+  _buildScreen(){
+    return Consumer<SessionLogin>(
+      builder: (context, sessionLogin, child) {
+        if(sessionLogin.idLogin != null){
+          return Scaffold(
+            appBar: _buildAppBar(),
+            bottomNavigationBar: _buildBottomNav(),
+            body: Center(
+              child: _widgetOptions.elementAt(_selectedIndex),
+            ),
+          );
+        }else{
+          return Scaffold(
+            backgroundColor: Color(0xff141F27),
+            body: Center(
+              child: Login()
+            ),
+          );
+        }
+      },
+    );    
+  }
+
+  _buildBottomNav(){
+    return BottomNavigationBar(
         backgroundColor: Color(0xff141F27),
         type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: Colors.white30),
-            activeIcon: Icon(Icons.home, color: Colors.white),
-            backgroundColor: Color(0xff141F27),
-            title: Text(
-              'Início',
-              style: TextStyle(
-                color: Colors.white
-              )
-            ),
-          ),
-
-          BottomNavigationBarItem(
-            icon: Icon(Exit.icon_ionic_md_exit, color: Colors.white30),
-            activeIcon: Icon(Exit.icon_ionic_md_exit, color: Colors.white),
-            backgroundColor: Color(0xff141F27),
-            title: Text(
-              'Mov Saida',
-              style: TextStyle(
-                color: Colors.white
-              )
-            ),
-          ),
-
-          BottomNavigationBarItem(
-            icon: Icon(Icons.attach_money, color: Colors.white30),
-            activeIcon: Icon(Icons.attach_money, color: Colors.white),
-            backgroundColor: Color(0xff141F27),
-            title: Text(
-              'Salario',
-              style: TextStyle(
-                color: Colors.white
-              )
-            ),
-          ),
-
-          BottomNavigationBarItem(
-            icon: Icon(MetasIcons.album, color: Colors.white30),
-            activeIcon: Icon(MetasIcons.album, color: Colors.white),
-            backgroundColor: Color(0xff141F27),
-            title: Text(
-              'Metas',
-              style: TextStyle(
-                color: Colors.white
-              )
-            ),
-          ),
-
-          BottomNavigationBarItem(
-            icon: Icon(PoupancaIcons.account_balance, color: Colors.white30),
-            activeIcon: Icon(PoupancaIcons.account_balance, color: Colors.white),
-            backgroundColor: Color(0xff141F27),
-            title: Text(
-              'Poupanca',
-              style: TextStyle(
-                color: Colors.white
-              )
-            ),
-          ),
-        
+        items: <BottomNavigationBarItem>[
+          _buildBottomNavItem(Icons.home, 'Início'),
+          _buildBottomNavItem(Exit.icon_ionic_md_exit, 'Mov Saida'),
+          _buildBottomNavItem(Icons.attach_money, 'Salario'),
+          _buildBottomNavItem(MetasIcons.album, 'Metas'),
+          _buildBottomNavItem(PoupancaIcons.account_balance, 'Poupanca'),
+          
         ],
 
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
-      ),
-
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+      );
+  }
+  
+  BottomNavigationBarItem _buildBottomNavItem(icon, text){
+    return BottomNavigationBarItem(
+      icon: Icon(icon, color: Colors.white30),
+      activeIcon: Icon(icon, color: Colors.white),
+      backgroundColor: Color(0xff141F27),
+      title: Text(
+        text,
+        style: TextStyle(
+          color: Colors.white
+        )
       ),
     );
   }
 
   _buildAppBar(){
-    LoginController logingController = LoginController();
-    logingController.mudarNomeSessaoLogin(context); 
-    
     return AppBar(
       title: _buildNomeUser(), 
       backgroundColor: Color(0xff142129),
