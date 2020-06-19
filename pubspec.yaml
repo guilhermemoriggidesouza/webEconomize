@@ -46,3 +46,7 @@ flutter:
   - family: MetasIcons
     fonts:
     - asset: lib/fonts/metas.ttf
+
+  - family: Porco
+    fonts:
+    - asset: lib/fonts/porco.ttf

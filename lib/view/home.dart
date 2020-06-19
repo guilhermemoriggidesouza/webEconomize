@@ -5,6 +5,7 @@ import 'package:webEconomize/controller/LoginController.dart';
 import 'package:webEconomize/controller/SalarioController.dart';
 import 'package:webEconomize/controller/sessions/SessionLogin.dart';
 import 'package:webEconomize/custom/button.dart';
+import 'package:webEconomize/custom/porco.dart';
 import 'package:webEconomize/domain/salario_detalhe.dart';
 
 class Home extends StatefulWidget {
@@ -22,14 +23,21 @@ class _HomeState extends State<Home> {
       body: Container(
         child: Column(
           children: <Widget>[
+            Text("Para usar:", style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 33, height: 1)),
+            Text("32,90",style: TextStyle(color: Colors.white, fontSize: 33)), // Valor do provider
             SizedBox(height:20.0),
             _buildExpandableList(context),
             ButtonLabel("add um", EdgeInsets.symmetric(vertical: 8.0), EdgeInsets.symmetric(vertical: 8.0), (){
               Provider.of<SalarioController>(context, listen: false).addMaisUm(SalarioDetalhe(4, "aaa", 0.0, 0));
-            })
+            }),
+            Text("Total Poupança", style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 12),),
+          Icon(Porco.icon_awesome_piggy_bank, size: 92, color: Colors.white.withOpacity(0.7),), 
+          Text("2.000,00",style: TextStyle(
+            color: Colors.white,
+            fontSize: 30.0,) )// Valor do provider,
           ],
         ),
-      ),
+      ),      
     );
   }
 
