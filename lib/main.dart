@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:webEconomize/controller/LoginController.dart';
+import 'package:webEconomize/controller/SalarioController.dart';
 import 'package:webEconomize/controller/sessions/SessionLogin.dart';
 import 'package:webEconomize/controller/sessions/SessionSalario.dart';
 import 'package:webEconomize/view/main_page.dart';
@@ -11,6 +12,7 @@ void main() => runApp(
   MultiProvider(  
     providers: [
       ChangeNotifierProvider<SessionLogin>(create: (_) => SessionLogin()),
+      ChangeNotifierProvider<SalarioController>(create: (_) => SalarioController()),
       ChangeNotifierProvider<SessionSalario>(create: (_) => SessionSalario()),
       ChangeNotifierProvider<LoginController>(create: (_) => LoginController()),
     ],
