@@ -13,13 +13,67 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xff1B384A),
-      body: Text(
-        "Home", 
-        style: TextStyle(
-            color: Colors.white
-        )
+
+     return Scaffold(
+        backgroundColor: Color(0xff1B384A),
+      body: Padding(
+              child: Column(
+          children: <Widget>[
+            SizedBox(height:20.0),
+            ExpansionTile(
+              title: Text(
+                "Gastos",
+                style: TextStyle(   
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+              children: <Widget>[
+                ListTile(
+                  title: Text(
+                    'Conclusão Objetivo',
+                    style: TextStyle(
+                      color: Colors.white
+                    )
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Conclusão Objetivo',
+                    style: TextStyle(
+                      color: Colors.white
+                    )
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Conclusão Objetivo',
+                    style: TextStyle(
+                      color: Colors.white
+                    )
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Conclusão Objetivo',
+                    style: TextStyle(
+                      color: Colors.white
+                    )
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Conclusão Objetivo',
+                    style: TextStyle(
+                      color: Colors.white
+                    )
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
