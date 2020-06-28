@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:webEconomize/controller/LoginController.dart';
+import 'package:webEconomize/controller/PoupancaController.dart';
 import 'package:webEconomize/controller/SalarioController.dart';
 import 'package:webEconomize/controller/sessions/SessionLogin.dart';
 import 'package:webEconomize/custom/button.dart';
@@ -27,14 +28,16 @@ class _HomeState extends State<Home> {
             Text("32,90",style: TextStyle(color: Colors.white, fontSize: 33)), // Valor do provider
             SizedBox(height:20.0),
             _buildExpandableList(context),
-            ButtonLabel("add um", EdgeInsets.symmetric(vertical: 8.0), EdgeInsets.symmetric(vertical: 8.0), (){
-              Provider.of<SalarioController>(context, listen: false).addMaisUm(SalarioDetalhe(4, "aaa", 0.0, 0));
-            }),
             Text("Total Poupança", style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 12),),
-          Icon(Porco.icon_awesome_piggy_bank, size: 92, color: Colors.white.withOpacity(0.7),), 
-          Text("2.000,00",style: TextStyle(
-            color: Colors.white,
-            fontSize: 30.0,) )// Valor do provider,
+            Icon(Porco.icon_awesome_piggy_bank, size: 92, color: Colors.white.withOpacity(0.7),), 
+            Consumer<PoupancaController>(
+              builder: (context, poupancaController, child){
+                return Text(poupancaController.valorTotalPoupanca.toString(), style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30.0,) 
+                );// Valor do provider,
+              },
+            )
           ],
         ),
       ),      
