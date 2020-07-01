@@ -20,7 +20,7 @@ class ButtonLabel extends StatelessWidget {
       child: InkWell(
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(55 * 0.2),
+            borderRadius: BorderRadius.circular(3),
             color: Colors.white,
           ),
           height: 55 * 0.8,

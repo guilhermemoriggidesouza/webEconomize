@@ -21,15 +21,11 @@ class InputLabel extends StatelessWidget {
           fillColor: Colors.white,
           filled: true,
           labelText: label,
-          border: _roundedInputDecoration(),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(3),
+          ),
         ),
       ),
-    );
-  }
-
-  _roundedInputDecoration() {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(45 * 0.1),
     );
   }
 }

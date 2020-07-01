@@ -23,71 +23,66 @@ class _LoginState extends State<Login> {
             margin: EdgeInsets.only(top: 80),
             child: Image.asset("lib/assets/logo.png")
           ),
+          
+          _buildLoginInput("Login", (value){
+            Provider.of<LoginController>(context, listen: false).email = value;
+          }, margin: EdgeInsets.only(top: 56)),
 
-          Center(
-            child: Container(
-              margin: EdgeInsets.only(top: 56),
-              child: FractionallySizedBox(
-                widthFactor: 0.6,
-                child:InputLabel("Login", (value){
-                  Provider.of<LoginController>(context, listen: false).email = value;
-                }),
-              ),    
-            )
-          ),
+          _buildLoginInput("Senha",(value){
+            Provider.of<LoginController>(context, listen: false).senha = value;
+          }),
 
-          Center(
-            child: Container(
-              child: FractionallySizedBox(
-                widthFactor: 0.6,
-                child:InputLabel("Senha", (value){
-                  Provider.of<LoginController>(context, listen: false).senha = value;
-                }),
-              ),    
-            )
-          ),
-
-          Center(
-            child: FractionallySizedBox(
-              widthFactor: 0.6,
-              child: Row(
-                children: <Widget>[
-
-                  Center(
-                    child:Container(
-                      child: ButtonLabel(
-                        'Entrar', 
-                        EdgeInsets.only(top: 8.0, bottom: 8.0, right: 10),
-                        EdgeInsets.symmetric(horizontal:24),
-                        () {
-                          Provider.of<LoginController>(context, listen: false).validarLogin(context);
-                        },
-                      ),
-                    ),
-                  ),
-                  
-
-                  Expanded(
-                    child:Container(
-                      child: ButtonLabel(
-                        'Registrar', 
-                        EdgeInsets.symmetric(vertical: 8.0),
-                        EdgeInsets.symmetric(horizontal:16),
-                        () {
-
-                        },
-                      ),
-                    )
-
-                  )
-                  
-                ],
-              )
-            ),
-          ),
-
+          _buildBottomButtonsLogin()
         ],
       ) 
+    );
+  }
+
+  _buildBottomButtonsLogin(){
+    return Center(
+      child: FractionallySizedBox(
+        widthFactor: 0.6,
+        child: Row(
+          children: <Widget>[
+
+            Center(
+              child: _buildButtonLogin('Entrar', EdgeInsets.only(top: 8.0, bottom: 8.0, right: 10), EdgeInsets.symmetric(horizontal:24), (){
+                Provider.of<LoginController>(context, listen: false).validarLogin(context);
+              })
+            ),
+
+            Expanded(
+              child: _buildButtonLogin('Registrar', EdgeInsets.symmetric(vertical: 8.0), EdgeInsets.symmetric(horizontal:16), (){
+
+              })
+            )
+            
+          ],
+        )
+      ),
+    );
+  }
+
+  _buildButtonLogin(String label, EdgeInsets padding, EdgeInsets secondPadding, Function onTap){
+    return Container(
+      child: ButtonLabel(
+        label, 
+        padding,
+        secondPadding,
+        onTap,
+      ),
+    );
+  }
+
+  _buildLoginInput(String text, Function(String) onSaved, {EdgeInsets margin}){
+    return Center(
+      child: Container(
+        margin: margin != null ? margin : EdgeInsets.zero,
+        child: FractionallySizedBox(
+          widthFactor: 0.6,
+          child:InputLabel(text, onSaved),
+        ),    
+      )
     );
   }
 }

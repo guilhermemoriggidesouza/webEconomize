@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:webEconomize/controller/LoginController.dart';
 import 'package:webEconomize/controller/sessions/SessionLogin.dart';
+import 'package:webEconomize/custom/buttonIcon.dart';
 import 'package:webEconomize/custom/exit.dart';
 import 'package:webEconomize/custom/metas.dart';
 import 'package:webEconomize/custom/poupanca.dart';
@@ -101,27 +102,7 @@ class _MainPageState extends State<MainPage> {
       title: _buildNomeUser(), 
       backgroundColor: Color(0xff142129),
       actions: <Widget>[
-        Container(
-          child: FlatButton(
-            onPressed: () => {},
-            child: Row( // Replace with a Row for horizontal icon + text                  
-              children: <Widget>[
-                Icon(Power.icon_awesome_power_off, color: Colors.white,),
-                Container(
-                  padding: EdgeInsets.only(left: 10),
-                  child:  Text(
-                    "Sair",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
+        ButtonIcon(Icon(Power.icon_awesome_power_off, color: Colors.white,), ()=>{} , label: "Sair")
       ],
     );
   }
