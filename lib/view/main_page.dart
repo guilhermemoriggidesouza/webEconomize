@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:webEconomize/controller/LoginController.dart';
-import 'package:webEconomize/controller/sessions/SessionLogin.dart';
 import 'package:webEconomize/custom/buttonIcon.dart';
 import 'package:webEconomize/custom/exit.dart';
 import 'package:webEconomize/custom/metas.dart';
@@ -42,9 +41,9 @@ class _MainPageState extends State<MainPage> {
   }
 
   _buildScreen(){
-    return Consumer<SessionLogin>(
-      builder: (context, sessionLogin, child) {
-        if(sessionLogin.idLogin != null){
+    return Consumer<LoginController>(
+      builder: (context, loginController, child) {
+        if(loginController.idLogin != null){
           return Scaffold(
             appBar: _buildAppBar(),
             bottomNavigationBar: _buildBottomNav(),
@@ -108,10 +107,10 @@ class _MainPageState extends State<MainPage> {
   }
 
   _buildNomeUser(){
-    return Consumer<SessionLogin>(
-      builder: (context, sessionLogin, child) {
+    return Consumer<LoginController>(
+      builder: (context, loginController, child) {
         return Text(
-          sessionLogin.nome,
+          loginController.nome,
           style: TextStyle(
             color: Colors.white,
           ),

@@ -1,13 +1,12 @@
 import 'package:flutter/foundation.dart';
+import 'package:webEconomize/domain/Salario.dart';
 import 'package:webEconomize/domain/salario_detalhe.dart';
-import 'package:webEconomize/view/salario.dart';
 
 class SalarioController with ChangeNotifier{
   List<SalarioDetalhe> listaSalarioDetalhe = List<SalarioDetalhe>();
-  String dataCadastro = "04/07/2020";
-  double salarioResto = 1000.00;
-  double salarioFixo = 500.00;
+  Salario salario = Salario(dataCadastro: "04/07/2020", salarioFixo: 0.0, salarioResto: 0.0);
   String modificarSomarSalario = "0.0"; 
+  String modificarSubtrairSalario = "0.0"; 
 
   SalarioController(){
     this.listaSalarioDetalhe.add(SalarioDetalhe(1, "Movimentação de objetivo", 400.0, 1));
@@ -15,8 +14,15 @@ class SalarioController with ChangeNotifier{
     notifyListeners();
   }
 
-  addMaisUm(salario){
-    this.listaSalarioDetalhe.add(salario);
+  adicionarSalario(){
+    salario.salarioResto += double.parse(modificarSomarSalario);
+    salario.salarioFixo += double.parse(modificarSomarSalario);
+    notifyListeners();
+  }
+
+  diminuirSalario(){
+    salario.salarioResto -= double.parse(modificarSubtrairSalario);
+    salario.salarioFixo -= double.parse(modificarSubtrairSalario);
     notifyListeners();
   }
 

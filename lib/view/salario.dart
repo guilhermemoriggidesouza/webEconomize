@@ -3,9 +3,10 @@ import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:webEconomize/controller/SalarioController.dart';
-import 'package:webEconomize/custom/button.dart';
 import 'package:webEconomize/custom/buttonIcon.dart';
 import 'package:webEconomize/custom/input.dart';
+
+final _formKey = GlobalKey<FormState>();
 
 class Salario extends StatefulWidget {
   @override
@@ -67,35 +68,40 @@ class _SalarioState extends State<Salario> {
 
 
   _buildInputsModificarSomarSubtrair(){
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _buildSomarSubtrairLabel("Somar", (value)=>{
-              
-            }),
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              _buildSomarSubtrairLabel("Somar", (value){
+                Provider.of<SalarioController>(context, listen: false).modificarSomarSalario = value;
+              }),
 
-            _buildSomarSubtrairButton(Color(0xff1B8F42), Icon(FontAwesomeIcons.plus, color: Colors.white,), ()=>{
+              _buildSomarSubtrairButton(Color(0xff1B8F42), Icon(FontAwesomeIcons.plus, color: Colors.white,), (){
+                _formKey.currentState.save();
+                Provider.of<SalarioController>(context, listen: false).adicionarSalario();
+              }),
+            ]
+          ),
 
-            }),
-          ]
-        ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              _buildSomarSubtrairLabel("Subtrair", (value){
+                Provider.of<SalarioController>(context, listen: false).modificarSubtrairSalario = value;
+              }),
 
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _buildSomarSubtrairLabel("Subtrair", (value)=>{
-              
-            }),
-
-            _buildSomarSubtrairButton(Color(0xffB73232), Icon(FontAwesomeIcons.minus, color: Colors.white,), ()=>{
-
-            }),
-          ]
-        )
-      ],
+              _buildSomarSubtrairButton(Color(0xffB73232), Icon(FontAwesomeIcons.minus, color: Colors.white,), (){
+                _formKey.currentState.save();
+                Provider.of<SalarioController>(context, listen: false).diminuirSalario();
+              }),
+            ]
+          )
+        ],
+      ),
     );
   }
 
@@ -125,9 +131,9 @@ class _SalarioState extends State<Salario> {
          return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _buildLabelInfosSalario("Data cadastro:  ", salarioController.dataCadastro),
-            _buildLabelInfosSalario("Salario para utilizar:  ", salarioController.salarioResto.toString()),
-            _buildLabelInfosSalario("Salario total: ", salarioController.salarioFixo.toString()),
+            _buildLabelInfosSalario("Data cadastro:  ", salarioController.salario.dataCadastro),
+            _buildLabelInfosSalario("Salario para utilizar:  ", salarioController.salario.salarioResto.toString()),
+            _buildLabelInfosSalario("Salario total: ", salarioController.salario.salarioFixo.toString()),
           ],
         );
       }
