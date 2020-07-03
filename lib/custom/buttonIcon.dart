@@ -6,6 +6,7 @@ class ButtonIcon extends StatelessWidget {
   Color color;
   Function onTap;
   EdgeInsets margin;
+  EdgeInsets internalPadding;
 
   ButtonIcon(
     this.icon,
@@ -13,7 +14,8 @@ class ButtonIcon extends StatelessWidget {
     {
       this.label,
       this.color,
-      this.margin
+      this.margin,
+      this.internalPadding
     }
   );
 
@@ -21,9 +23,15 @@ class ButtonIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: margin != null ? margin : EdgeInsets.zero,
-      color: color != null ? color : Colors.transparent,
+      height: 45,
+      padding: EdgeInsets.zero,
       child: FlatButton(
+        color: color != null ? color : Colors.transparent,
         onPressed: onTap,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(3)
+        ),
+        padding: EdgeInsets.zero,
         child: Row( // Replace with a Row for horizontal icon + text   
           mainAxisAlignment: MainAxisAlignment.center,               
           children: <Widget>[
@@ -37,7 +45,7 @@ class ButtonIcon extends StatelessWidget {
   _buildTextButton(){
     if(label != null){
       return Container(
-        padding: EdgeInsets.only(left: 10),
+        padding: internalPadding == null ? EdgeInsets.only(left: 10) : internalPadding,
         child:  Text(
           label,
           textAlign: TextAlign.center,

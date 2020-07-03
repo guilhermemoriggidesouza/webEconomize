@@ -49,7 +49,7 @@ class _LoginState extends State<Login> {
         child: Row(
           children: <Widget>[
 
-            Center(
+            Container(
               child: _buildButtonLogin('Entrar', EdgeInsets.only(top: 8.0, bottom: 8.0, right: 10), EdgeInsets.symmetric(horizontal:24), (){
                 _formKey.currentState.save();
                 Provider.of<LoginController>(context, listen: false).validarLogin(context);
@@ -57,7 +57,7 @@ class _LoginState extends State<Login> {
             ),
 
             Expanded(
-              child: _buildButtonLogin('Registrar', EdgeInsets.symmetric(vertical: 8.0), EdgeInsets.symmetric(horizontal:16), (){
+              child: _buildButtonLogin('Registrar', EdgeInsets.symmetric(vertical: 8.0), EdgeInsets.symmetric(horizontal:8), (){
 
               })
             )
@@ -72,9 +72,10 @@ class _LoginState extends State<Login> {
     return Container(
       child: ButtonLabel(
         label, 
-        padding,
-        secondPadding,
         onTap,
+        padding: padding,
+        internalPadding: secondPadding,
+        height: 35,
       ),
     );
   }
