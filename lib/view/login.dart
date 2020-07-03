@@ -1,11 +1,14 @@
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:webEconomize/controller/LoginController.dart';
 import 'package:webEconomize/custom/button.dart';
+import 'package:webEconomize/custom/dialog.dart';
 import 'package:webEconomize/custom/input.dart';
 
 final _formKey = GlobalKey<FormState>();
+final _formKeyModal = GlobalKey<FormState>();
 
 class Login extends StatefulWidget {
   @override
@@ -58,6 +61,8 @@ class _LoginState extends State<Login> {
 
             Expanded(
               child: _buildButtonLogin('Registrar', EdgeInsets.symmetric(vertical: 8.0), EdgeInsets.symmetric(horizontal:8), (){
+                Dialog dialogo = DialogCustom("Cadastrar Login", _buildCorpoDialog());
+                showDialog(context: context, builder: (BuildContext context) => dialogo);
               })
             ) 
           ],
@@ -86,6 +91,39 @@ class _LoginState extends State<Login> {
           widthFactor: 0.6,
           child:InputLabel(text, onSaved),
         ),    
+      )
+    );
+  }
+
+  Container _buildCorpoDialog(){
+    return Container(
+      child:Form(
+        key: _formKeyModal,
+        child: Column(
+          children: <Widget>[
+            InputLabel("Login", (value){
+              Provider.of<LoginController>(context, listen: false).loginCadastro.login = value;
+            }),
+            InputLabel("Senha", (value){
+              Provider.of<LoginController>(context, listen: false).loginCadastro.senha = value;
+            }),
+            InputLabel("Nome", (value){
+              Provider.of<LoginController>(context, listen: false).loginCadastro.nome = value;
+            }),
+            _buildButtonLogin("Cadastrar login", EdgeInsets.zero, EdgeInsets.zero, () async{
+              _formKeyModal.currentState.save();
+
+              dynamic msgCadastro = await Provider.of<LoginController>(context, listen: false).cadastrarLogin();
+
+              Flushbar(
+                title: "Login de salario",
+                backgroundColor: Colors.black,
+                message: msgCadastro,
+                duration: Duration(seconds: 60),
+              )..show(context);
+            })
+          ]
+        ),
       )
     );
   }

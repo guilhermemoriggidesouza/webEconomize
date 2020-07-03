@@ -17,9 +17,9 @@ class InputLabel extends StatelessWidget {
       child: TextFormField(
         keyboardType: TextInputType.text,
         onSaved: onSaved,
+        maxLines: 1,
         decoration: InputDecoration(
           fillColor: Colors.white,
-          filled: true,
           labelText: label,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(3),
