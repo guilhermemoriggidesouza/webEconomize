@@ -58,10 +58,8 @@ class _LoginState extends State<Login> {
 
             Expanded(
               child: _buildButtonLogin('Registrar', EdgeInsets.symmetric(vertical: 8.0), EdgeInsets.symmetric(horizontal:8), (){
-
               })
-            )
-            
+            ) 
           ],
         )
       ),

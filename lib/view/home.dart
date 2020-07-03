@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:webEconomize/controller/LoginController.dart';
 import 'package:webEconomize/controller/PoupancaController.dart';
@@ -16,75 +17,158 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final ScrollController _scrollController = ScrollController();
 
+  double salarioAtual = 32.90;
+  String nomeDoUsuario = "André Nunes";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff1B384A),
-      body: Container(
-        child: Column(
+      body: _buildBody(),
+    );
+  }
+
+  _buildBody(){
+
+    return ListView(
+      children: <Widget>[
+        Wrap(
+          direction: Axis.vertical,
           children: <Widget>[
-            Text("Para usar:", style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 33, height: 1)),
-            Text("32,90",style: TextStyle(color: Colors.white, fontSize: 33)), // Valor do provider
-            SizedBox(height:20.0),
-            _buildExpandableList(context),
-            Text("Total Poupança", style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 12),),
-            Icon(Porco.icon_awesome_piggy_bank, size: 92, color: Colors.white.withOpacity(0.7),), 
-            Consumer<PoupancaController>(
-              builder: (context, poupancaController, child){
-                return Text(poupancaController.valorTotalPoupanca.toString(), style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 30.0,) 
-                );// Valor do provider,
-              },
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: Container(
+                alignment: Alignment.center,        
+                width: MediaQuery.of(context).size.width / 1,
+                child: Text(
+                  "Para usar",
+                  style: TextStyle(color: Colors.white, fontSize: 35, fontWeight: FontWeight.w500),
+                ),
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,        
+              width: MediaQuery.of(context).size.width / 1,
+              child: Wrap(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Icon(
+                        Icons.monetization_on,
+                        size: 20,
+                        color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    "${salarioAtual}",
+                    style: TextStyle(fontSize: 25, color: Colors.white),
+                  ),
+                  Text(
+                    "/100",
+                     style: TextStyle(fontSize: 15, color: Colors.white),                 
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 35,
+            ),
+            Container(
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width / 1,
+              child: Wrap(
+                direction: Axis.vertical,
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width / 1, 
+                    child: Text(
+                      "Bem vindo",
+                      style: TextStyle(fontSize: 35, color: Colors.white, fontWeight: FontWeight.w600),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 1,
+                    child: Text(
+                      "${nomeDoUsuario}",
+                       style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w400),
+                       textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 35,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width / 1,
+              child: _buildExpandableList(context),
             )
+            
           ],
         ),
-      ),      
+      ],
     );
   }
 
   _buildExpandableList(context){
     return Consumer<SalarioController>(
       builder: (context, salarioController, child) {
-        return ExpansionTile(
-          backgroundColor: Color(0xff205370),
-          title: Text(
-            "Gastos",
-            style: TextStyle(   
-              color: Colors.white,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ExpansionTile(
+            backgroundColor: Color(0xff205370),
+            title: Text(
+              "Gastos",
+              style: TextStyle(   
+                color: Colors.white,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold
+              ),
             ),
-          ),
-          children: <Widget>[
-            Container(
-              height: 200,
-              color: Color(0xff141F27),
-              child: ListView.separated(
-                controller: _scrollController,
-                shrinkWrap: true,
-                itemCount: salarioController.listaSalarioDetalhe.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    height: 50,
-                    child: Center(
-                      child: Text(
-                        salarioController.listaSalarioDetalhe[index].descricao,
-                        style: TextStyle(   
-                          color: Colors.white,
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 5.0, bottom: 2.0, left: 2.0, right: 2.0),
+                child: Container(
+                  color: Color(0xff141F27),
+                  child: ListView.separated(
+                    controller: _scrollController,
+                    shrinkWrap: true,
+                    itemCount: salarioController.listaSalarioDetalhe.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: _buildPaddingList(index),
+                        child: Container(
+                          child: Center(
+                            child: Text(
+                              salarioController.listaSalarioDetalhe[index].descricao,
+                              style: TextStyle(   
+                                color: Colors.white,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold
+                              ),
+                            )
+                          ),
                         ),
-                      )
-                    ),
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) => const Divider(),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) => const Divider(color: Color(0xff205370),),
+                  )
+                ),
               )
-            )
-          ],
+            ],
+          ),
         );
       }
     ); 
+  }
+
+  _buildPaddingList(int len){
+    if(len == 0){
+      return EdgeInsets.only(top: 15);
+    }else{
+       return EdgeInsets.only(bottom: 15);
+    } 
   }
 }

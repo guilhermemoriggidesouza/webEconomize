@@ -22,17 +22,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp
+    ]);
     return MaterialApp(
       title: 'Economize',
-      theme: ThemeData(primarySwatch: Colors.deepPurple),
+      theme: ThemeData(
+        primarySwatch: Colors.deepPurple,
+      ),
       debugShowCheckedModeBanner: false,
       home: MainPage(),
       localizationsDelegates: [GlobalMaterialLocalizations.delegate, 
         GlobalWidgetsLocalizations.delegate, 
         GlobalCupertinoLocalizations.delegate],
-      supportedLocales: [const Locale('pt', 'BR'), const Locale('en', 'US')],
+      supportedLocales: [
+        const Locale('pt', 'BR'), 
+        const Locale('en', 'US')
+      ],
     );
   }
 }
