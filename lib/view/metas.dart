@@ -45,12 +45,15 @@ class _MetasState extends State<Metas> {
         ),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-          height: MediaQuery.of(context).size.height * 0.35,
+          height: 275,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: mensagem.length,
             itemBuilder: (context, index) {
             return Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.blue)
+              ),
               width: MediaQuery.of(context).size.width * 0.6,
               child: Card(
                 color: Colors.black.withOpacity(0.5),
@@ -67,53 +70,45 @@ class _MetasState extends State<Metas> {
                     ),
                     Container(
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 20.0, left: 40, right: 40, bottom: 45),
+                        padding: const EdgeInsets.only(top: 20.0, left: 40, right: 40, bottom: 20),
                         child: Text(
                           mensagem[index],
                           textAlign: TextAlign.justify,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 13
+                            fontSize: 12
                           ),
                         ),
                       ),
                     ),
-                    Container( 
-                      child: Padding(
-                        padding: EdgeInsets.all(1),
-                        child: Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(right: 6.0),
-                              child: Container(
-                                width: 115,
-                                height: 45,
-                                child: RaisedButton(
-                                  elevation: 0,
-                                  color: Colors.green,
-                                  onPressed: () {},
-                                  child: Text(
-                                    "Confirmar",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
+                    Container(
+                      child: Wrap(
+                        spacing: 10,
+                        alignment: WrapAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                            width:  MediaQuery.of(context).size.width * 0.26,
+                            child: RaisedButton(
+                              color: Color(0xff3cb371),
+                              onPressed: (){},
+                              child: Text(
+                                "Confirmar",
+                                style: TextStyle(color: Colors.white),
                               ),
                             ),
-                            Container(
-                              height: 45,
-                              width: 115,
-                              child: RaisedButton(
-                                elevation: 0,
-                                color: Colors.red,
-                                onPressed: () {},
-                                child: Text(
-                                  "Excluir",
-                                  style: TextStyle(color: Colors.white),
-                                ),
+                          ),
+                          Container(
+                            width:  MediaQuery.of(context).size.width * 0.26,
+                            child: RaisedButton(
+                              color: Color(0xffff2b36),
+                              onPressed: (){},
+                              child: Text(
+                                "Excluir",
+                                style: TextStyle(color: Colors.white),
                               ),
-                            )
-                          ],
-                        ),
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   ],
