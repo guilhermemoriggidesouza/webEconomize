@@ -16,6 +16,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +62,7 @@ class _LoginState extends State<Login> {
 
             Expanded(
               child: _buildButtonLogin('Registrar', EdgeInsets.symmetric(vertical: 8.0), EdgeInsets.symmetric(horizontal:8), (){
-                Dialog dialogo = DialogCustom("Cadastrar Login", _buildCorpoDialog());
+                DialogCustom dialogo = DialogCustom("Cadastrar Login", _buildCorpoDialog());
                 showDialog(context: context, builder: (BuildContext context) => dialogo);
               })
             ) 
@@ -110,21 +111,46 @@ class _LoginState extends State<Login> {
             InputLabel("Nome", (value){
               Provider.of<LoginController>(context, listen: false).loginCadastro.nome = value;
             }),
-            _buildButtonLogin("Cadastrar login", EdgeInsets.zero, EdgeInsets.zero, () async{
-              _formKeyModal.currentState.save();
+            Container(
+              child: ButtonLabel(
+                "Cadastrar login", 
+                () async{
+                  _formKeyModal.currentState.save();
 
-              dynamic msgCadastro = await Provider.of<LoginController>(context, listen: false).cadastrarLogin();
+                  showLoaderDialog(context);
+                  dynamic msgCadastro = await Provider.of<LoginController>(context, listen: false).cadastrarLogin();
+                  Navigator.pop(context);
 
-              Flushbar(
-                title: "Login de salario",
-                backgroundColor: Colors.black,
-                message: msgCadastro,
-                duration: Duration(seconds: 60),
-              )..show(context);
-            })
+                  Flushbar(
+                    title: "Login de salario",
+                    backgroundColor: Colors.black,
+                    message: msgCadastro,
+                    duration: Duration(seconds: 60),
+                  )..show(context);
+                },
+                color: Color(0xff1B8F42),
+              ),
+            )
           ]
         ),
       )
     );
   }
+
+  showLoaderDialog(BuildContext context){
+    AlertDialog alert=AlertDialog(
+      content: new Row(
+        children: [
+          CircularProgressIndicator(),
+          Container(margin: EdgeInsets.only(left: 7),child:Text("Loading..." )),
+        ],),
+    );
+    showDialog(barrierDismissible: false,
+      context:context,
+      builder:(BuildContext context){
+        return alert;
+      },
+    );
+  }
+
 }

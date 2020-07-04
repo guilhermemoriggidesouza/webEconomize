@@ -39,6 +39,9 @@ class LoginController with ChangeNotifier{
 
   Future<String> cadastrarLogin() async{
     try{
+      if(loginCadastro.login == "" || loginCadastro.senha == "" || loginCadastro.nome == ""){
+        return "Preencha todos os dados";
+      }
       dynamic respostaLogin = await ApiOpa.cadastrarLogin(loginCadastro);
       return respostaLogin["msg"];
     }catch(error){

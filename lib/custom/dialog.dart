@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:webEconomize/custom/buttonIcon.dart';
 
 class DialogCustom extends StatelessWidget implements Dialog {
   String label;
@@ -12,28 +14,41 @@ class DialogCustom extends StatelessWidget implements Dialog {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      backgroundColor: Color(0xff1B384A),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
       ),
-      child: Container(
-        width: 300.0,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.all(15.0),
-              child: Text(
-                label,
-                style: TextStyle(color: Colors.red),
-              ),
+      child: Wrap(
+        children: <Widget>[
+          Container(
+            width: 300.0,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Padding(  
+                      padding: EdgeInsets.all(15.0),
+                      child: Text(
+                        label,
+                        style: TextStyle(color: Colors.white, fontSize: 24),
+                      ),
+                    ),
+                    ButtonIcon(Icon(FontAwesomeIcons.solidWindowClose, color: Colors.white, size: 24), (){
+                      Navigator.pop(context, false);
+                    })
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10, top: 20, bottom:10),
+                  child: body
+                ), 
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, top: 50),
-              child: body
-            ),
-          ],
-        ),
-      ),
+          ),
+        ],
+      )
     );
   }
 
