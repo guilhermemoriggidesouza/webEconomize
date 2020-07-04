@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:webEconomize/custom/input.dart';
 
 class WidgetMetaCadastro extends StatelessWidget {
 
@@ -8,8 +9,7 @@ class WidgetMetaCadastro extends StatelessWidget {
       width:  MediaQuery.of(context).size.width * 0.26,
       child: RaisedButton(
         color: Color(0xff3cb371),
-        onPressed: (){    
-        },
+        onPressed: (){},
         child: Text(
           "Cadastrar Movimento de Saída",
           style: TextStyle(color: Colors.white),
