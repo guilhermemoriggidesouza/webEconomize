@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 class WidgetListaCard extends StatelessWidget {
   bool mostrarBotaoConfirma;
   List<String> mensagem = [];
+  int isMovTela;
 
-  WidgetListaCard(this.mensagem, {this.mostrarBotaoConfirma});
+  WidgetListaCard(this.mensagem, this.isMovTela, {this.mostrarBotaoConfirma});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(top: 15.0),
+          padding: const EdgeInsets.only(top: 12.0),
           child: Container(
             width: double.infinity,
             child: Text(
@@ -28,8 +29,8 @@ class WidgetListaCard extends StatelessWidget {
           color: Colors.white,
         ),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-          height: 275,
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 14.0),
+          height: 277,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: mensagem.length,
@@ -41,7 +42,7 @@ class WidgetListaCard extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.only(top: 15.0, bottom: 5.0, left: 5.0, right: 5.0),
+                      padding: const EdgeInsets.only(top: 20.0, bottom: 3.0, left: 5.0, right: 5.0),
                       child: Container(
                         child: Text(
                           "Titulo movimento da saida",
@@ -51,7 +52,7 @@ class WidgetListaCard extends StatelessWidget {
                     ),
                     Container(
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 20.0, left: 40, right: 40, bottom: 20),
+                        padding: const EdgeInsets.only(top: 20.0, left: 40, right: 40, bottom: 10),
                         child: Text(
                           mensagem[index],
                           textAlign: TextAlign.justify,
@@ -62,13 +63,14 @@ class WidgetListaCard extends StatelessWidget {
                         ),
                       ),
                     ),
+                    _buildValorTelaMovSaida(isMovTela, context),
                     Container(
                       child: Wrap(
                         spacing: 10,
                         alignment: WrapAlignment.spaceBetween,
                         children: <Widget>[
                           _buildBotao(true, "Confirmar",  Color(0xff3cb371), context),
-                          _buildBotao(false, "Excluir", Color(0xffff2b36), context)
+                          _buildBotao(false, "Excluir", Color(0xFFD4302b), context)
                         ],
                       ),
                     ),
@@ -82,24 +84,59 @@ class WidgetListaCard extends StatelessWidget {
     );
   }
 
+  _buildValorTelaMovSaida(int isMovTela, BuildContext context){
+    double valor = 2000.0;
+    if(isMovTela == 1){
+      return Container(
+        width: MediaQuery.of(context).size.width / 1,
+        height: 19,
+        margin: EdgeInsets.only(right: 40, bottom: 3),
+        child: Wrap(
+          spacing: 10,
+          alignment: WrapAlignment.end,
+          children: <Widget>[
+            Icon(
+              Icons.monetization_on,
+              color: Colors.white,
+              size: 16,
+            ),
+            Text(
+              "${valor}",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14
+              ),
+            ),
+          ],
+        ),
+      );
+    }else{
+      return Container(
+        width: MediaQuery.of(context).size.width / 1,
+        height: 19,
+        margin: EdgeInsets.only(right: 40, bottom: 5),
+      );
+    }
+  }
+
   _buildBotao(bool botaoExcluir, String text, Color color, context ){
     num size = MediaQuery.of(context).size.width * 0.26;
     if(!mostrarBotaoConfirma && !botaoExcluir) return Container();
     if(!mostrarBotaoConfirma){ 
       text = "Excluir"; 
       size = MediaQuery.of(context).size.width; 
-      color = Color(0xffff2b36);
+      color = Color(0xFFD4302b);
       }
-      return Container(
-        width:  size,
-        child: RaisedButton(
-          color: color,
-          onPressed: (){},
-          child: Text(
-            text,
-            style: TextStyle(color: Colors.white),
-          ),
+    return Container(
+      width:  size,
+      child: RaisedButton(
+        color: color,
+        onPressed: (){},
+        child: Text(
+          text,
+          style: TextStyle(color: Colors.white),
         ),
-      );
+      ),
+    );
   }
 }

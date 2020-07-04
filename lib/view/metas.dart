@@ -41,8 +41,8 @@ class _MetasState extends State<Metas> {
   _buildBody() {
     return ListView(
       children: <Widget>[
-        WidgetListaCard(mensagemNaoConcluida, mostrarBotaoConfirma: true),
-        WidgetListaCard(mensagemNaoConcluida,  mostrarBotaoConfirma: false),
+        WidgetListaCard(mensagemNaoConcluida, 0, mostrarBotaoConfirma: true),
+        WidgetListaCard(mensagemNaoConcluida, 0, mostrarBotaoConfirma: false),
         WidgetMetaCadastro(),
       ],
     );
