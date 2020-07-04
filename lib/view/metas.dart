@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:webEconomize/custom/widgetMovientaSaida.dart';
+import 'package:webEconomize/custom/widgetListaCard.dart';
+import 'package:webEconomize/custom/widgetMetaCadastro.dart';
 
 class Metas extends StatefulWidget {
   @override
@@ -8,7 +9,17 @@ class Metas extends StatefulWidget {
 }
 
 class _MetasState extends State<Metas> {
-  final List<String> mensagem = [
+  final List<String> mensagemNaoConcluida = [
+    "é simplesmente um texto fictício da indústria tipográfica e de impressão." +
+    "Lorem Ipsum é o texto fictício padrão do setor desde os anos 1500",
+    "é simplesmente um texto fictício da indústria tipográfica e de impressão." +
+    "Lorem Ipsum é o texto fictício padrão do setor desde os anos 1500",
+    "é simplesmente um texto fictício da indústria tipográfica e de impressão." +
+    "Lorem Ipsum é o texto fictício padrão do setor desde os anos 1500",
+    "é simplesmente um texto fictício da indústria tipográfica e de impressão." +
+    "Lorem Ipsum é o texto fictício padrão do setor desde os anos 1500",
+  ];
+ final List<String> mensagemConcluida = [
     "é simplesmente um texto fictício da indústria tipográfica e de impressão." +
     "Lorem Ipsum é o texto fictício padrão do setor desde os anos 1500",
     "é simplesmente um texto fictício da indústria tipográfica e de impressão." +
@@ -30,7 +41,9 @@ class _MetasState extends State<Metas> {
   _buildBody() {
     return ListView(
       children: <Widget>[
-        WidgetMovimentaSaida(mensagem),
+        WidgetListaCard(mensagemNaoConcluida, mostrarBotaoConfirma: true),
+        WidgetListaCard(mensagemNaoConcluida,  mostrarBotaoConfirma: false),
+        WidgetMetaCadastro(),
       ],
     );
   }

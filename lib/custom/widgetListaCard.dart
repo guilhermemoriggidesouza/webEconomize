@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
-class WidgetMovimentaSaida extends StatelessWidget {
-
+class WidgetListaCard extends StatelessWidget {
+  bool mostrarBotaoConfirma;
   List<String> mensagem = [];
 
-  WidgetMovimentaSaida(List mensagem){
-    this.mensagem = mensagem;
-  }
+  WidgetListaCard(this.mensagem, {this.mostrarBotaoConfirma});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +15,7 @@ class WidgetMovimentaSaida extends StatelessWidget {
           child: Container(
             width: double.infinity,
             child: Text(
-              "Metas não concluida",
+              "Metas não concluidas",
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white, 
@@ -69,28 +67,8 @@ class WidgetMovimentaSaida extends StatelessWidget {
                         spacing: 10,
                         alignment: WrapAlignment.spaceBetween,
                         children: <Widget>[
-                          Container(
-                            width:  MediaQuery.of(context).size.width * 0.26,
-                            child: RaisedButton(
-                              color: Color(0xff3cb371),
-                              onPressed: (){},
-                              child: Text(
-                                "Confirmar",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width:  MediaQuery.of(context).size.width * 0.26,
-                            child: RaisedButton(
-                              color: Color(0xffff2b36),
-                              onPressed: (){},
-                              child: Text(
-                                "Excluir",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          )
+                          _buildBotao(true, "Confirmar",  Color(0xff3cb371), context),
+                          _buildBotao(false, "Excluir", Color(0xffff2b36), context)
                         ],
                       ),
                     ),
@@ -102,5 +80,26 @@ class WidgetMovimentaSaida extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  _buildBotao(bool botaoExcluir, String text, Color color, context ){
+    num size = MediaQuery.of(context).size.width * 0.26;
+    if(!mostrarBotaoConfirma && !botaoExcluir) return Container();
+    if(!mostrarBotaoConfirma){ 
+      text = "Excluir"; 
+      size = MediaQuery.of(context).size.width; 
+      color = Color(0xffff2b36);
+      }
+      return Container(
+        width:  size,
+        child: RaisedButton(
+          color: color,
+          onPressed: (){},
+          child: Text(
+            text,
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      );
   }
 }
