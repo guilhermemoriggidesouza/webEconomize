@@ -15,14 +15,20 @@ class LoginModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'idlogin': idlogin,
+      'email': login,
       'senha': senha,
-      'login': login,
       'nome': nome,
     };
   }
 
-  static Login fromMap(Map<String, dynamic> map) {
+  toModel(Login login){
+    this.idlogin = login.idlogin;
+    this.login = login.login;
+    this.senha = login.senha;
+    this.nome = login.nome;
+  }
+
+  static Login fromMaptoDomain(Map<String, dynamic> map) {
     if (map == null) return null;
   
     return Login(

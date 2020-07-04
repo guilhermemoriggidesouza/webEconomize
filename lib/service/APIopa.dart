@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:webEconomize/domain/Login.dart';
+import 'package:webEconomize/models/login.dart';
 
 class ApiOpa {
   static criarSessionLogin(String email, String senha) async {
@@ -17,10 +18,10 @@ class ApiOpa {
     }
   }
 
-  static cadastrarLogin(Login login) async{
+  static cadastrarLogin(LoginModel login) async{
     try{
       var urllogin = 'https://opaapi.herokuapp.com/login';
-      var body = json.encode({"email": "${login.login}","nome":"${login.nome}","senha": "${login.senha}" });
+      var body = json.encode(login.toMap());
       var response = await http.post(urllogin, headers: {"Content-Type": "application/json"}, body: body);
       
       return validarRota(response);

@@ -26,7 +26,7 @@ class LoginController with ChangeNotifier{
       dynamic response = await ApiOpa.criarSessionLogin(email, senha);
       dynamic loginMap = response["resp"];
       try{
-        loginUsuario = LoginModel.fromMap(loginMap);
+        loginUsuario = LoginModel.fromMaptoDomain(loginMap);
       }catch(error){
         print(error);
       }
@@ -40,7 +40,9 @@ class LoginController with ChangeNotifier{
   Future<String> cadastrarLogin() async{
     try{
       if(loginCadastro.login == "" || loginCadastro.senha == "" || loginCadastro.nome == "") return "Preencha todos os dados";
-      dynamic respostaLogin = await ApiOpa.cadastrarLogin(loginCadastro);
+      LoginModel loginModel = LoginModel();
+      loginModel.toModel(loginCadastro);
+      dynamic respostaLogin = await ApiOpa.cadastrarLogin(loginModel);
       return respostaLogin["msg"];
     }catch(error){
       return error.toString();
