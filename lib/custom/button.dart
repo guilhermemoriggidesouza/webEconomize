@@ -17,7 +17,7 @@ class ButtonLabel extends StatelessWidget {
       this.internalPadding,
       this.color,
       this.textColor,
-      this.height
+      this.height,
     }
   );
 

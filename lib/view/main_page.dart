@@ -43,7 +43,7 @@ class _MainPageState extends State<MainPage> {
   _buildScreen(){
     return Consumer<LoginController>(
       builder: (context, loginController, child) {
-        if(loginController.idLogin != null){
+        if(loginController.loginUsuario != null){
           return Scaffold(
             appBar: _buildAppBar(),
             bottomNavigationBar: _buildBottomNav(),
@@ -110,7 +110,7 @@ class _MainPageState extends State<MainPage> {
     return Consumer<LoginController>(
       builder: (context, loginController, child) {
         return Text(
-          loginController.nome,
+          loginController.loginUsuario.nome,
           style: TextStyle(
             color: Colors.white,
           ),
