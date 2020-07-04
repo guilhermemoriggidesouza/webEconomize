@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 class InputLabel extends StatelessWidget {
   String label;
   Function(String) onSaved;
+  bool obscureInput;
+
 
   InputLabel(
     this.label, 
-    this.onSaved,
+    this.onSaved,{
+      this.obscureInput
+    }
   );
 
   @override
@@ -15,6 +19,7 @@ class InputLabel extends StatelessWidget {
       height: 55,
       padding: EdgeInsets.symmetric(vertical: 8.0),
       child: TextFormField(
+        obscureText: obscureInput == null ? false : obscureInput,
         keyboardType: TextInputType.text,
         onSaved: onSaved,
         maxLines: 1,

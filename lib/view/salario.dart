@@ -122,14 +122,17 @@ class _SalarioState extends State<Salario> {
     return Consumer<SalarioController>( 
       builder: (context, salarioController, child){
 
-        return Container(
-          margin: EdgeInsets.symmetric(horizontal: 10),
-          width: double.infinity,
-          color: Colors.black.withOpacity(0.3),
-          child: DataTable(
-          columns: _builListDataTableColumn(),
-          rows: _buildListDataTableRows(salarioController.listaSalarios),
-        ),
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child:Container(
+            margin: EdgeInsets.symmetric(horizontal: 10),
+            width: double.infinity,
+            color: Colors.black.withOpacity(0.3),
+            child: DataTable(
+            columns: _builListDataTableColumn(),
+            rows: _buildListDataTableRows(salarioController.listaSalarios),
+          ),
+        )
       );
 
     });

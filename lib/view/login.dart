@@ -23,24 +23,25 @@ class _LoginState extends State<Login> {
       backgroundColor: Color(0xff1B384A),
       body: Form(
         key: _formKey,
-        child:Column(
-          children: <Widget>[
+        child:SingleChildScrollView(
+          child:Column(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 80),
+                child: Image.asset("lib/assets/logo.png")
+              ),
+              
+              _buildLoginInput("Login", (value){
+                Provider.of<LoginController>(context, listen: false).email = value;
+              }, margin: EdgeInsets.only(top: 56)),
 
-            Container(
-              margin: EdgeInsets.only(top: 80),
-              child: Image.asset("lib/assets/logo.png")
-            ),
-            
-            _buildLoginInput("Login", (value){
-              Provider.of<LoginController>(context, listen: false).email = value;
-            }, margin: EdgeInsets.only(top: 56)),
+              _buildLoginInput("Senha",(value){
+                Provider.of<LoginController>(context, listen: false).senha = value;
+              },obscure:true),
 
-            _buildLoginInput("Senha",(value){
-              Provider.of<LoginController>(context, listen: false).senha = value;
-            }),
-
-            _buildBottomButtonsLogin()
-          ],
+              _buildBottomButtonsLogin()
+            ],
+          )
         )
       ) 
     );
@@ -54,9 +55,19 @@ class _LoginState extends State<Login> {
           children: <Widget>[
 
             Container(
-              child: _buildButtonLogin('Entrar', EdgeInsets.only(top: 8.0, bottom: 8.0, right: 10), EdgeInsets.symmetric(horizontal:24), (){
+              child: _buildButtonLogin('Entrar', EdgeInsets.only(top: 8.0, bottom: 8.0, right: 10), EdgeInsets.zero, () async{
                 _formKey.currentState.save();
-                Provider.of<LoginController>(context, listen: false).validarLogin(context);
+
+                showLoaderDialog(context);
+                String retorno = await Provider.of<LoginController>(context, listen: false).validarLogin(context);
+                Navigator.pop(context);
+
+                Flushbar(
+                  title: "Login de salario",
+                  backgroundColor: Colors.black,
+                  message: retorno,
+                  duration: Duration(seconds: 5),
+                )..show(context);
               })
             ),
 
@@ -84,13 +95,13 @@ class _LoginState extends State<Login> {
     );
   }
 
-  _buildLoginInput(String text, Function(String) onSaved, {EdgeInsets margin}){
+  _buildLoginInput(String text, Function(String) onSaved, {EdgeInsets margin, bool obscure: false}){
     return Center(
       child: Container(
         margin: margin != null ? margin : EdgeInsets.zero,
         child: FractionallySizedBox(
           widthFactor: 0.6,
-          child:InputLabel(text, onSaved),
+          child:InputLabel(text, onSaved, obscureInput: obscure),
         ),    
       )
     );
@@ -125,10 +136,11 @@ class _LoginState extends State<Login> {
                     title: "Login de salario",
                     backgroundColor: Colors.black,
                     message: msgCadastro,
-                    duration: Duration(seconds: 60),
+                    duration: Duration(seconds: 5),
                   )..show(context);
                 },
                 color: Color(0xff1B8F42),
+                textColor: Colors.white,
               ),
             )
           ]
