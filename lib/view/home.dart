@@ -7,6 +7,7 @@ import 'package:webEconomize/controller/PoupancaController.dart';
 import 'package:webEconomize/controller/SalarioController.dart';
 import 'package:webEconomize/custom/button.dart';
 import 'package:webEconomize/custom/porco.dart';
+import 'package:webEconomize/custom/poupanca.dart';
 import 'package:webEconomize/domain/salario_detalhe.dart';
 
 class Home extends StatefulWidget {
@@ -29,7 +30,6 @@ class _HomeState extends State<Home> {
   }
 
   _buildBody(){
-
     return ListView(
       children: <Widget>[
         Wrap(
@@ -99,19 +99,56 @@ class _HomeState extends State<Home> {
               ),
             ),
             SizedBox(
-              height: 35,
+              height: 45,
             ),
             Container(
               width: MediaQuery.of(context).size.width / 1,
               child: _buildExpandableList(context),
-            )
-            
+            ),
+            Container(
+              height: 200,
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width /1,
+              child: Wrap(
+                direction: Axis.horizontal,
+                children: <Widget>[
+                  Container(
+                    child: IconButton(
+                      icon: FaIcon(FontAwesomeIcons.piggyBank), 
+                      onPressed: (){},
+                      iconSize: 60,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Wrap(
+                      direction: Axis.vertical,
+                      children: <Widget>[
+                        Text(
+                          "Total na poupança",
+                          style: TextStyle(
+                            color: Colors.white
+                          ),
+                        ),
+                        Text(
+                          "2000,00", 
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ],
     );
   }
-
   _buildExpandableList(context){
     return Consumer<SalarioController>(
       builder: (context, salarioController, child) {
