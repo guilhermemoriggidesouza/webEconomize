@@ -4,6 +4,7 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +23,7 @@ class Salario extends StatefulWidget {
 class _SalarioState extends State<Salario> {
 
   final _dateFormat = DateFormat('dd/MM/yyyy');
+   final moneyController = new MoneyMaskedTextController();
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +50,9 @@ class _SalarioState extends State<Salario> {
               ),
 
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 40, vertical:10),
+                margin: EdgeInsets.symmetric(horizontal: 40, vertical: 40),
                 child: ButtonLabel("Cadastrar Salario", (){
-                  _buildCadastroSalario();
+                  _buildCadastroSalario(controller: moneyController);
                 }, color: Color(0xff008ABE), textColor: Colors.white)
               ),
               
@@ -63,22 +65,21 @@ class _SalarioState extends State<Salario> {
     );
   }
 
-  // decoration: BoxDecoration(border: Border.all(color: Colors.amber)), Para teste
-  _buildCadastroSalario(){
+  _buildCadastroSalario({MoneyMaskedTextController controller}){
     Dialog dialog = Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
       ),
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height / 3,
+        height: MediaQuery.of(context).size.height / 3.2,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           color: Color(0xff1B384A),
         ),
         child: Container(
           child: Padding(
-            padding: const EdgeInsets.only(top: 15.0, bottom: 15, left: 25, right: 25),
+            padding: const EdgeInsets.only(top: 15.0, bottom: 15, left: 10, right: 10),
             child: Wrap(
               children: <Widget>[
                 Container(
@@ -124,17 +125,20 @@ class _SalarioState extends State<Salario> {
                   width: double.infinity,
                   child: Wrap(
                     alignment: WrapAlignment.center,
-                    spacing: 10,
+                    spacing: 5,
                     direction: Axis.horizontal,
                     children: <Widget>[
                       Container(
-                        width: MediaQuery.of(context).size.width / 3.5,
+                        width: MediaQuery.of(context).size.width / 4.0,
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.white),
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white
                         ),
+                
                         child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: controller,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             icon: Icon(Icons.monetization_on),
@@ -143,7 +147,7 @@ class _SalarioState extends State<Salario> {
                         ),
                       ),
                       Container(
-                        width: MediaQuery.of(context).size.width / 3.0,
+                        width: MediaQuery.of(context).size.width / 2.3,
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.white),
                           borderRadius: BorderRadius.circular(10),
@@ -198,7 +202,7 @@ class _SalarioState extends State<Salario> {
     showDialog(context: context, builder: (BuildContext context) => dialog);
   }
 
-  _buildDialogCreate(){
+  /*buildDialogCreate(){
     Dialog simpleDialog = Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
@@ -253,7 +257,7 @@ class _SalarioState extends State<Salario> {
       ),
     );
     showDialog(context: context, builder: (BuildContext context) => simpleDialog);
-  }
+  }*/
 
   _buildDataTableSalarios(){
     return Consumer<SalarioController>( 
