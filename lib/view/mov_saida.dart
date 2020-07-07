@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:webEconomize/custom/widgetListaCard.dart';
-import 'package:webEconomize/custom/widgetMetaCadastro.dart';
+import 'package:webEconomize/custom/button.dart';
 
 class MovSaida extends StatefulWidget {
   @override
@@ -43,8 +43,16 @@ class _MovSaidaState extends State<MovSaida> {
       children: <Widget>[
         WidgetListaCard(mensagemNaoConcluida, 1, mostrarBotaoConfirma: true),
         WidgetListaCard(mensagemNaoConcluida, 1,  mostrarBotaoConfirma: false),
-        WidgetMetaCadastro(),
+        Container(
+          margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
+          child:ButtonLabel(
+        "Cadastrar Movimento de Saída", (){_build();}, color: Color(0xFF008ABE), textColor: Colors.white)),
       ],
     );
   }
+
+  _build(){
+    return Container();
+  }
 }
+
