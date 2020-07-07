@@ -1,9 +1,12 @@
 import 'dart:ffi';
 
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:webEconomize/controller/SalarioController.dart';
 import 'package:webEconomize/custom/button.dart';
@@ -18,6 +21,10 @@ class Salario extends StatefulWidget {
 }
 
 class _SalarioState extends State<Salario> {
+
+  final _dateFormat = DateFormat('dd/MM/yyyy');
+   final moneyController = new MoneyMaskedTextController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +38,6 @@ class _SalarioState extends State<Salario> {
             children: <Widget>[
               _buildTextTopo(),
               _buildInfosSalario(),
-
               Padding(
                 padding: EdgeInsets.only(top: 8, bottom: 8),
                 child: Text(
@@ -44,16 +50,14 @@ class _SalarioState extends State<Salario> {
               ),
 
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 40, vertical:10),
+                margin: EdgeInsets.symmetric(horizontal: 40, vertical: 40),
                 child: ButtonLabel("Cadastrar Salario", (){
-                  
+                  _buildCadastroSalario(controller: moneyController);
                 }, color: Color(0xff008ABE), textColor: Colors.white)
               ),
               
               _buildInputsModificarSomarSubtrair(),
-
               _buildDataTableSalarios()
-              
             ],
           )
         ),
@@ -61,7 +65,144 @@ class _SalarioState extends State<Salario> {
     );
   }
 
-  _buildDialogCreate(){
+  _buildCadastroSalario({MoneyMaskedTextController controller}){
+    Dialog dialog = Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height / 3.2,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Color(0xff1B384A),
+        ),
+        child: Container(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 15.0, bottom: 15, left: 10, right: 10),
+            child: Wrap(
+              children: <Widget>[
+                Container(
+                  width: double.infinity,
+                  height: 40,
+                  child: Wrap(
+                    spacing: 20,
+                    alignment: WrapAlignment.spaceAround,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    runAlignment: WrapAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: 180,
+                        child: Text(
+                          "Cadastro de salario",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20
+                          ),
+                        )
+                      ),
+                      Container(
+                        alignment: Alignment.bottomLeft,
+                        width: 50,
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.close,
+                            size: 30,
+                            color: Colors.white,
+                          ),
+                          onPressed: (){
+                            Navigator.of(context, rootNavigator: true).pop('dialog');
+                          },
+                        )
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 90,
+                ),
+                Container(
+                  width: double.infinity,
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 5,
+                    direction: Axis.horizontal,
+                    children: <Widget>[
+                      Container(
+                        width: MediaQuery.of(context).size.width / 4.0,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white
+                        ),
+                
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: controller,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            icon: Icon(Icons.monetization_on),
+                            hintText: "Valor"
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2.3,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white
+                        ),
+                        child: DateTimeField(
+                           decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Data",
+                            suffixStyle: TextStyle(fontSize: 10),
+                            icon: Icon(Icons.date_range), 
+                          ),
+                          onShowPicker: (context, currentValue) {
+                            return showDatePicker(
+                              context: context,
+                              firstDate: DateTime(1900),
+                              initialDate: currentValue ?? DateTime.now(),
+                              lastDate: DateTime(2100),
+                            );
+                          }, 
+                          format: _dateFormat,  
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 100,
+                ),
+                Container(
+                  height: 45,
+                  width: double.infinity,
+                  child: RaisedButton(
+                    color: Color(0xff1B8F42),
+                    onPressed: (){},
+                    child: Text(
+                      "Cadastra movimento de saida",
+                      style: TextStyle(
+                        color: Colors.white, 
+                        fontSize: 15, 
+                        fontWeight: FontWeight.w500
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+    showDialog(context: context, builder: (BuildContext context) => dialog);
+  }
+
+  /*buildDialogCreate(){
     Dialog simpleDialog = Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
@@ -116,23 +257,20 @@ class _SalarioState extends State<Salario> {
       ),
     );
     showDialog(context: context, builder: (BuildContext context) => simpleDialog);
-  }
+  }*/
 
   _buildDataTableSalarios(){
     return Consumer<SalarioController>( 
       builder: (context, salarioController, child){
 
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child:Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            width: double.infinity,
-            color: Colors.black.withOpacity(0.3),
-            child: DataTable(
-            columns: _builListDataTableColumn(),
-            rows: _buildListDataTableRows(salarioController.listaSalarios),
-          ),
-        )
+        return Container(
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          width: double.infinity,
+          color: Colors.black.withOpacity(0.3),
+          child: DataTable(
+          columns: _builListDataTableColumn(),
+          rows: _buildListDataTableRows(salarioController.listaSalarios),
+        ),
       );
 
     });
