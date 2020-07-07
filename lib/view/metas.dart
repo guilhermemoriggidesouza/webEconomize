@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:webEconomize/custom/widgetListaCard.dart';
+import 'package:webEconomize/custom/button.dart';
 import 'package:webEconomize/custom/widgetMetaCadastro.dart';
 
 class Metas extends StatefulWidget {
@@ -43,8 +44,15 @@ class _MetasState extends State<Metas> {
       children: <Widget>[
         WidgetListaCard(mensagemNaoConcluida, 0, mostrarBotaoConfirma: true),
         WidgetListaCard(mensagemNaoConcluida, 0, mostrarBotaoConfirma: false),
-        WidgetMetaCadastro(),
+        Container(
+          margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
+          child:ButtonLabel(
+        "Cadastrar Movimento de Saída", (){_build();}, color: Color(0xFF008ABE), textColor: Colors.white)),
       ],
     );
+  }
+
+  _build(){
+    return Container();
   }
 }
