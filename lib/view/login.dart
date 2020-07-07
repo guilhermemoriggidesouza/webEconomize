@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:webEconomize/controller/LoginController.dart';
+import 'package:webEconomize/controller/SalarioController.dart';
 import 'package:webEconomize/custom/button.dart';
 import 'package:webEconomize/custom/dialog.dart';
 import 'package:webEconomize/custom/input.dart';
@@ -59,13 +60,18 @@ class _LoginState extends State<Login> {
                 _formKey.currentState.save();
 
                 showLoaderDialog(context);
-                String retorno = await Provider.of<LoginController>(context, listen: false).validarLogin(context);
+                Map<String, dynamic> retorno = await Provider.of<LoginController>(context, listen: false).validarLogin(context);
                 Navigator.pop(context);
+
+                if(retorno["status"] == true){
+                  int idlogin = Provider.of<LoginController>(context, listen: false).loginUsuario.idlogin;
+                  Provider.of<SalarioController>(context, listen: false).recuperarSalarioUsuario(idlogin);
+                }
 
                 Flushbar(
                   title: "Login",
                   backgroundColor: Colors.black,
-                  message: retorno,
+                  message: retorno["msg"],
                   duration: Duration(seconds: 5),
                 )..show(context);
               })

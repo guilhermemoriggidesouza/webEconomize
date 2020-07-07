@@ -45,7 +45,6 @@ class _MainPageState extends State<MainPage> {
     return Consumer<LoginController>(
       builder: (context, loginController, child) {
         if(loginController.loginUsuario != null){
-          Provider.of<SalarioController>(context, listen:false).recuperarSalarioUsuario(loginController.loginUsuario.idlogin);
           return Scaffold(
             appBar: _buildAppBar(),
             bottomNavigationBar: _buildBottomNav(),
@@ -103,7 +102,10 @@ class _MainPageState extends State<MainPage> {
       title: _buildNomeUser(), 
       backgroundColor: Color(0xff142129),
       actions: <Widget>[
-        ButtonIcon(Icon(Power.icon_awesome_power_off, color: Colors.white,), ()=>{} , label: "Sair")
+        ButtonIcon(Icon(Power.icon_awesome_power_off, color: Colors.white,), (){
+          Provider.of<SalarioController>(context, listen: false).limparSalario();
+          Provider.of<LoginController>(context, listen: false).limparLogin();
+        } , label: "Sair")
       ],
     );
   }

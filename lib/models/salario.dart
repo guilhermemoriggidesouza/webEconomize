@@ -34,7 +34,7 @@ class SalarioModel{
     return Salario(
       idsalario: map['idsalario'],
       idlogin: map['idlogin'],
-      dataCadastro: map['valor_resto'].toString(),
+      dataCadastro: map['mes'].toString().substring(0,10),
       salarioResto: map['valor_resto'].toDouble(),
       salarioFixo: map['valor_fixo'].toDouble(),
     );

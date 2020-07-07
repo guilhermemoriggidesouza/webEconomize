@@ -303,12 +303,12 @@ class _SalarioState extends State<Salario> {
   _buildInfosSalario(){
     return Consumer<SalarioController>(
       builder: (context, salarioController, child){
-         return Column(
+        return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _buildLabelInfosSalario("Data cadastro:  ", salarioController.salario.dataCadastro),
-            _buildLabelInfosSalario("Salario para utilizar:  ", salarioController.salario.salarioResto.toString()),
-            _buildLabelInfosSalario("Salario total: ", salarioController.salario.salarioFixo.toString()),
+            _buildLabelInfosSalario("Data cadastro:  ", salarioController.salario.dataCadastro??""),
+            _buildLabelInfosSalario("Salario para utilizar:  ", salarioController.salario.salarioResto.toString()??""),
+            _buildLabelInfosSalario("Salario total: ", salarioController.salario.salarioFixo.toString()??""),
           ],
         );
       }
