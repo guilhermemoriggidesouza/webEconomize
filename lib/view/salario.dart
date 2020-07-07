@@ -1,9 +1,12 @@
 import 'dart:ffi';
 
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:webEconomize/controller/LoginController.dart';
 import 'package:webEconomize/controller/SalarioController.dart';
@@ -22,6 +25,10 @@ class Salario extends StatefulWidget {
 }
 
 class _SalarioState extends State<Salario> {
+
+  final _dateFormat = DateFormat('dd/MM/yyyy');
+   final moneyController = new MoneyMaskedTextController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +42,6 @@ class _SalarioState extends State<Salario> {
             children: <Widget>[
               _buildTextTopo(),
               _buildInfosSalario(),
-
               Padding(
                 padding: EdgeInsets.only(top: 8, bottom: 8),
                 child: Text(
@@ -48,16 +54,14 @@ class _SalarioState extends State<Salario> {
               ),
 
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 40, vertical:10),
+                margin: EdgeInsets.symmetric(horizontal: 40, vertical: 40),
                 child: ButtonLabel("Cadastrar Salario", (){
                   _buildDialogCreate();
                 }, color: Color(0xff008ABE), textColor: Colors.white)
               ),
               
               _buildInputsModificarSomarSubtrair(),
-
               _buildDataTableSalarios()
-              
             ],
           )
         ),
@@ -338,7 +342,7 @@ class _SalarioState extends State<Salario> {
       ],
     );
   }
-  
+
   showLoaderDialog(BuildContext context){
     AlertDialog alert=AlertDialog(
       content: new Row(
