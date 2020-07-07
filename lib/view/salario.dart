@@ -14,7 +14,7 @@ import 'package:webEconomize/custom/button.dart';
 import 'package:webEconomize/custom/buttonIcon.dart';
 import 'package:webEconomize/custom/dialog.dart';
 import 'package:webEconomize/custom/input.dart';
-import 'package:webEconomize/models/salarioModel.dart';
+import 'package:webEconomize/models/salario.dart';
 
 final _formKey = GlobalKey<FormState>();
 final _formKeySalario = GlobalKey<FormState>();
@@ -25,9 +25,6 @@ class Salario extends StatefulWidget {
 }
 
 class _SalarioState extends State<Salario> {
-
-  final _dateFormat = DateFormat('dd/MM/yyyy');
-   final moneyController = new MoneyMaskedTextController();
 
   @override
   Widget build(BuildContext context) {
@@ -82,10 +79,11 @@ class _SalarioState extends State<Salario> {
           children: <Widget>[
             InputLabel("Valor Salario", (value){
               SalarioModel salarioModel = Provider.of<SalarioController>(context, listen: false).salarioCadastrar;
+              int idlogin = Provider.of<LoginController>(context, listen: false).loginUsuario.idlogin;
 
               salarioModel.salarioFixo = double.parse(value);
               salarioModel.salarioResto = double.parse(value);
-              salarioModel.idlogin = Provider.of<LoginController>(context, listen: false).loginUsuario.idlogin;
+              salarioModel.idlogin = idlogin;
             }),
             ButtonLabel("Cadastrar Salario", () async{
               _formKeySalario.currentState.save();
@@ -99,6 +97,8 @@ class _SalarioState extends State<Salario> {
                 message: mensagem,
                 duration: Duration(seconds: 5),
               )..show(context);
+
+              
             }, color: Color(0xff1B8F42), textColor: Colors.white)
           ],
         ),

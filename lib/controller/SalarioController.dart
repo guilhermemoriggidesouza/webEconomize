@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:webEconomize/domain/Salario.dart';
 import 'package:webEconomize/domain/salario_detalhe.dart';
-import 'package:webEconomize/models/salarioModel.dart';
+import 'package:webEconomize/models/salario.dart';
 import 'package:webEconomize/service/APIopa.dart';
 
 class SalarioController with ChangeNotifier{
@@ -49,8 +49,20 @@ class SalarioController with ChangeNotifier{
   Future<String> cadastrarSalario() async{
     if(salarioCadastrar.salarioFixo == 0.0 || salarioCadastrar.salarioResto == "") return "Preencha todos os dados";
     dynamic retorno = await ApiOpa.cadastrarSalario(salarioCadastrar);
+    if(retorno['resp'] != []){
+      recuperarSalarioUsuario(salarioCadastrar.idlogin);
+    }
     return retorno["msg"];
+  }
 
+  recuperarSalarioUsuario(int idlogin) async{
+    dynamic retorno = await ApiOpa.recuperarSalarioUsuario(idlogin);
+    if(retorno['resp'].length > 0 && retorno['resp'] != null){
+      listaSalarios = [];
+      retorno['resp'].forEach((element) => listaSalarios.add(SalarioModel.fromMaptoDomain(element)));
+      notifyListeners();
+    }
+    return retorno['msg'];
   }
 
 }

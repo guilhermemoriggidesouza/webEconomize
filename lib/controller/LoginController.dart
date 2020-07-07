@@ -6,7 +6,6 @@ import 'package:webEconomize/models/login.dart';
 import 'package:webEconomize/service/APIopa.dart';
 
 class LoginController with ChangeNotifier{
-  int idLogin = null;
   String email = "";
   String senha = "";
   Login loginUsuario = null;

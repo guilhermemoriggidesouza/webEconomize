@@ -63,7 +63,7 @@ class _LoginState extends State<Login> {
                 Navigator.pop(context);
 
                 Flushbar(
-                  title: "Login de salario",
+                  title: "Login",
                   backgroundColor: Colors.black,
                   message: retorno,
                   duration: Duration(seconds: 5),

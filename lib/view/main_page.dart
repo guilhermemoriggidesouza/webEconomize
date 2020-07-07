@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:webEconomize/controller/LoginController.dart';
+import 'package:webEconomize/controller/SalarioController.dart';
 import 'package:webEconomize/custom/buttonIcon.dart';
 import 'package:webEconomize/custom/exit.dart';
 import 'package:webEconomize/custom/metas.dart';
@@ -44,6 +45,7 @@ class _MainPageState extends State<MainPage> {
     return Consumer<LoginController>(
       builder: (context, loginController, child) {
         if(loginController.loginUsuario != null){
+          Provider.of<SalarioController>(context, listen:false).recuperarSalarioUsuario(loginController.loginUsuario.idlogin);
           return Scaffold(
             appBar: _buildAppBar(),
             bottomNavigationBar: _buildBottomNav(),
