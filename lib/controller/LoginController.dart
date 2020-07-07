@@ -10,7 +10,7 @@ class LoginController with ChangeNotifier{
   String email = "";
   String senha = "";
   Login loginUsuario = null;
-  Login loginCadastro = Login();
+  LoginModel loginCadastro = LoginModel();
 
   setEmail(value){
     email = value;
@@ -40,9 +40,7 @@ class LoginController with ChangeNotifier{
   Future<String> cadastrarLogin() async{
     try{
       if(loginCadastro.login == "" || loginCadastro.senha == "" || loginCadastro.nome == "") return "Preencha todos os dados";
-      LoginModel loginModel = LoginModel();
-      loginModel.toModel(loginCadastro);
-      dynamic respostaLogin = await ApiOpa.cadastrarLogin(loginModel);
+      dynamic respostaLogin = await ApiOpa.cadastrarLogin(loginCadastro);
       return respostaLogin["msg"];
     }catch(error){
       return error.toString();

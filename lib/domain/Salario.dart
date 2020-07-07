@@ -1,13 +1,13 @@
 class Salario{
   int idsalario;
-  int idLogin;
+  int idlogin;
   String dataCadastro;
   double salarioResto; 
   double salarioFixo;
   
   Salario({
     this.idsalario,
-    this.idLogin,
+    this.idlogin,
     this.dataCadastro,
     this.salarioResto,
     this.salarioFixo

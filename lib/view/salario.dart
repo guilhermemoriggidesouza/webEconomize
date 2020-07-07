@@ -5,12 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:webEconomize/controller/LoginController.dart';
 import 'package:webEconomize/controller/SalarioController.dart';
 import 'package:webEconomize/custom/button.dart';
 import 'package:webEconomize/custom/buttonIcon.dart';
+import 'package:webEconomize/custom/dialog.dart';
 import 'package:webEconomize/custom/input.dart';
+import 'package:webEconomize/models/salarioModel.dart';
 
 final _formKey = GlobalKey<FormState>();
+final _formKeySalario = GlobalKey<FormState>();
 
 class Salario extends StatefulWidget {
   @override
@@ -46,7 +50,7 @@ class _SalarioState extends State<Salario> {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 40, vertical:10),
                 child: ButtonLabel("Cadastrar Salario", (){
-                  
+                  _buildDialogCreate();
                 }, color: Color(0xff008ABE), textColor: Colors.white)
               ),
               
@@ -62,60 +66,40 @@ class _SalarioState extends State<Salario> {
   }
 
   _buildDialogCreate(){
-    Dialog simpleDialog = Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
-      ),
-      child: Container(
-        height: 300.0,
-        width: 300.0,
+    Dialog simpleDialog = DialogCustom("Cadastrar Login", _buildCorpoDialog());
+    showDialog(context: context, builder: (BuildContext context) => simpleDialog);
+  }
+
+  _buildCorpoDialog(){
+    return Container(
+      child: Form(
+        key: _formKeySalario,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.all(15.0),
-              child: Text(
-                'Simpe Custom Modal Dialog....',
-                style: TextStyle(color: Colors.red),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, top: 50),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  RaisedButton(
-                    color: Colors.blue,
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
-                      'Okay',
-                      style: TextStyle(fontSize: 18.0, color: Colors.white),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  RaisedButton(
-                    color: Colors.red,
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
-                      'Cancel!',
-                      style: TextStyle(fontSize: 18.0, color: Colors.white),
-                    ),
-                  )
-                ],
-              ),
-            ),
+            InputLabel("Valor Salario", (value){
+              SalarioModel salarioModel = Provider.of<SalarioController>(context, listen: false).salarioCadastrar;
+
+              salarioModel.salarioFixo = double.parse(value);
+              salarioModel.salarioResto = double.parse(value);
+              salarioModel.idlogin = Provider.of<LoginController>(context, listen: false).loginUsuario.idlogin;
+            }),
+            ButtonLabel("Cadastrar Salario", () async{
+              _formKeySalario.currentState.save();
+              showLoaderDialog(context);
+              String mensagem = await Provider.of<SalarioController>(context, listen: false).cadastrarSalario();
+              Navigator.pop(context);
+
+              Flushbar(
+                title: "Cadastro de salario",
+                backgroundColor: Colors.black,
+                message: mensagem,
+                duration: Duration(seconds: 5),
+              )..show(context);
+            }, color: Color(0xff1B8F42), textColor: Colors.white)
           ],
         ),
-      ),
+      )
     );
-    showDialog(context: context, builder: (BuildContext context) => simpleDialog);
   }
 
   _buildDataTableSalarios(){
@@ -126,7 +110,6 @@ class _SalarioState extends State<Salario> {
           scrollDirection: Axis.horizontal,
           child:Container(
             margin: EdgeInsets.symmetric(horizontal: 10),
-            width: double.infinity,
             color: Colors.black.withOpacity(0.3),
             child: DataTable(
             columns: _builListDataTableColumn(),
@@ -353,6 +336,22 @@ class _SalarioState extends State<Salario> {
           )
         )
       ],
+    );
+  }
+  
+  showLoaderDialog(BuildContext context){
+    AlertDialog alert=AlertDialog(
+      content: new Row(
+        children: [
+          CircularProgressIndicator(),
+          Container(margin: EdgeInsets.only(left: 7),child:Text("Loading..." )),
+        ],),
+    );
+    showDialog(barrierDismissible: false,
+      context:context,
+      builder:(BuildContext context){
+        return alert;
+      },
     );
   }
 }

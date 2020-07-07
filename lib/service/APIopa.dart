@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:webEconomize/domain/Login.dart';
 import 'package:webEconomize/models/login.dart';
+import 'package:webEconomize/models/salarioModel.dart';
 
 class ApiOpa {
   static criarSessionLogin(String email, String senha) async {
@@ -23,6 +23,19 @@ class ApiOpa {
       var urllogin = 'https://opaapi.herokuapp.com/login';
       var body = json.encode(login.toMap());
       var response = await http.post(urllogin, headers: {"Content-Type": "application/json"}, body: body);
+      
+      return json.decode(response.body);
+
+    }catch(error){
+      return {"msg": "Error, tente novamento mais tarde", "resp": error};
+    }
+  }
+
+  static cadastrarSalario(SalarioModel salario) async{
+    try{
+      var urlSalario = 'https://opaapi.herokuapp.com/salario';
+      var body = json.encode(salario.toMap());
+      var response = await http.post(urlSalario, headers: {"Content-Type": "application/json"}, body: body);
       
       return json.decode(response.body);
 
