@@ -16,19 +16,43 @@ class InputLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 55,
-      padding: EdgeInsets.symmetric(vertical: 8.0),
+      height: 35,
+      margin: EdgeInsets.symmetric(vertical: 8.0),
       child: TextFormField(
+        style: TextStyle(color: Colors.white, decorationColor: Colors.white),
         obscureText: obscureInput == null ? false : obscureInput,
         keyboardType: TextInputType.text,
         onSaved: onSaved,
         maxLines: 1,
         decoration: InputDecoration(
-          fillColor: Colors.white,
-          labelText: label,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(3),
+          contentPadding: EdgeInsets.only(top:8, left: 8),
+          filled: true,
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(3)),
+            borderSide: BorderSide(width: 1,color: Colors.white),
           ),
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(3)),
+            borderSide: BorderSide(width: 1,color: Colors.white),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(3)),
+            borderSide: BorderSide(width: 1,color: Colors.white),
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(3)),
+            borderSide: BorderSide(width: 1,)
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(3)),
+            borderSide: BorderSide(width: 1,color: Colors.white)
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(3)),
+            borderSide: BorderSide(width: 1,color: Colors.white)
+          ),
+          hintText: label,
+          hintStyle: TextStyle(fontSize: 18,color: Color(0xFFB3B1B1))
         ),
       ),
     );

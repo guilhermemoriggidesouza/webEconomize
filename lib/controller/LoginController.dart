@@ -6,11 +6,10 @@ import 'package:webEconomize/models/login.dart';
 import 'package:webEconomize/service/APIopa.dart';
 
 class LoginController with ChangeNotifier{
-  int idLogin = null;
   String email = "";
   String senha = "";
   Login loginUsuario = null;
-  Login loginCadastro = Login();
+  LoginModel loginCadastro = LoginModel();
 
   setEmail(value){
     email = value;
@@ -20,29 +19,34 @@ class LoginController with ChangeNotifier{
     senha = value;
   }
 
-  Future<String> validarLogin(context) async{
+  limparLogin(){
+    loginUsuario = null;
+    notifyListeners();
+  }
+
+  Future<Map<String, dynamic>> validarLogin(context) async{
     try{
-      if(email == "" || senha == "") return "informe todos os valores";
+      if(email == "" || senha == "") return {"msg":"informe todos os valores", "status": false};
       dynamic response = await ApiOpa.criarSessionLogin(email, senha);
       dynamic loginMap = response["resp"];
+      bool status = false;
       try{
         loginUsuario = LoginModel.fromMaptoDomain(loginMap);
+        status = true;
       }catch(error){
         print(error);
       }
       notifyListeners();
-      return response["msg"];
+      return {"msg" : response["msg"], "status": status};
     }catch(error){
-      return error.toString();
+      return {"msg" : error.toString(), "status": false};
     }
   }
 
   Future<String> cadastrarLogin() async{
     try{
       if(loginCadastro.login == "" || loginCadastro.senha == "" || loginCadastro.nome == "") return "Preencha todos os dados";
-      LoginModel loginModel = LoginModel();
-      loginModel.toModel(loginCadastro);
-      dynamic respostaLogin = await ApiOpa.cadastrarLogin(loginModel);
+      dynamic respostaLogin = await ApiOpa.cadastrarLogin(loginCadastro);
       return respostaLogin["msg"];
     }catch(error){
       return error.toString();
