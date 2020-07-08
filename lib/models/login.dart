@@ -15,7 +15,6 @@ class LoginModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'idlogin': idlogin,
       'email': login,
       'senha': senha,
       'nome': nome,

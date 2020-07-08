@@ -120,31 +120,31 @@ class _PoupancaState extends State<Poupanca> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _buildSomarSubtrairLabel("Somar", (value){
-                Provider.of<SalarioController>(context, listen: false).modificarSomarSalario = value;
-              }),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: <Widget>[
+          //     _buildSomarSubtrairLabel("Somar", (value){
+          //       Provider.of<SalarioController>(context, listen: false).modificarSomarSalario = value;
+          //     }),
 
-              _buildSomarSubtrairButton(Color(0xff1B8F42), Icon(FontAwesomeIcons.plus, color: Colors.white,), (){
-                Provider.of<SalarioController>(context, listen: false).adicionarSalario();
-              }),
-            ]
-          ),
+          //     _buildSomarSubtrairButton(Color(0xff1B8F42), Icon(FontAwesomeIcons.plus, color: Colors.white,), (){
+          //       Provider.of<SalarioController>(context, listen: false).adicionarSalario();
+          //     }),
+          //   ]
+          // ),
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _buildSomarSubtrairLabel("Subtrair", (value){
-                Provider.of<SalarioController>(context, listen: false).modificarSubtrairSalario = value;
-              }),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: <Widget>[
+          //     _buildSomarSubtrairLabel("Subtrair", (value){
+          //       Provider.of<SalarioController>(context, listen: false).modificarSubtrairSalario = value;
+          //     }),
 
-              _buildSomarSubtrairButton(Color(0xffB73232), Icon(FontAwesomeIcons.minus, color: Colors.white,), (){
-                Provider.of<SalarioController>(context, listen: false).diminuirSalario();
-              }),
-            ]
-          )
+          //     _buildSomarSubtrairButton(Color(0xffB73232), Icon(FontAwesomeIcons.minus, color: Colors.white,), (){
+          //       Provider.of<SalarioController>(context, listen: false).diminuirSalario();
+          //     }),
+          //   ]
+          // )
         ],
       ),
     );

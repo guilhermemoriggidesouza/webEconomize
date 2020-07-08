@@ -128,9 +128,11 @@ class _SalarioState extends State<Salario> {
 
   _buildListDataTableRows(lista){
       List<DataRow> dataRows = [];
-      lista.asMap().forEach((index, element) {
-        dataRows.add(_buildDataRows(element.dataCadastro, element.salarioFixo.toString(), element, (index == lista.length-1)));
-      });
+      if(lista.length > 0){
+        lista.asMap().forEach((index, element) {
+          dataRows.add(_buildDataRows(element.dataCadastro, element.salarioFixo.toString(), element, (index == lista.length-1)));
+        });
+      }
       return dataRows;
   }
 
@@ -251,7 +253,7 @@ class _SalarioState extends State<Salario> {
 
 
   _buildInputsModificarSomarSubtrair(){
-    if(salarioController.salario.idsalario == salarioController.listaSalarios.last.idsalario){
+    if(salarioController.listaSalarios.length !=0 && salarioController.salario.idsalario == salarioController.listaSalarios.last.idsalario){
       return Form(
         key: _formKey,
         child: Column(
@@ -288,7 +290,7 @@ class _SalarioState extends State<Salario> {
         ),
       );
     }else{
-      return Container();
+      return Text("Sem Salarios");
     }
   }
 

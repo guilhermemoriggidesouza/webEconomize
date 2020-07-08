@@ -66,21 +66,21 @@ class _MainPageState extends State<MainPage> {
 
   _buildBottomNav(){
     return BottomNavigationBar(
-        backgroundColor: Color(0xff141F27),
-        type: BottomNavigationBarType.fixed,
-        items: <BottomNavigationBarItem>[
-          _buildBottomNavItem(Icons.home, 'Início'),
-          _buildBottomNavItem(Exit.icon_ionic_md_exit, 'Mov Saida'),
-          _buildBottomNavItem(Icons.attach_money, 'Salario'),
-          _buildBottomNavItem(MetasIcons.album, 'Metas'),
-          _buildBottomNavItem(PoupancaIcons.account_balance, 'Poupanca'),
-          
-        ],
+      backgroundColor: Color(0xff141F27),
+      type: BottomNavigationBarType.fixed,
+      items: <BottomNavigationBarItem>[
+        _buildBottomNavItem(Icons.home, 'Início'),
+        _buildBottomNavItem(Exit.icon_ionic_md_exit, 'Mov Saida'),
+        _buildBottomNavItem(Icons.attach_money, 'Salario'),
+        _buildBottomNavItem(MetasIcons.album, 'Metas'),
+        _buildBottomNavItem(PoupancaIcons.account_balance, 'Poupanca'),
+        
+      ],
 
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
-      );
+      currentIndex: _selectedIndex,
+      selectedItemColor: Colors.amber[800],
+      onTap: _onItemTapped,
+    );
   }
   
   BottomNavigationBarItem _buildBottomNavItem(icon, text){

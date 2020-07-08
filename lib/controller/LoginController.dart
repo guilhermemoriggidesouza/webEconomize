@@ -31,8 +31,10 @@ class LoginController with ChangeNotifier{
       dynamic loginMap = response["resp"];
       bool status = false;
       try{
-        loginUsuario = LoginModel.fromMaptoDomain(loginMap);
-        status = true;
+        if(loginMap != null){
+          loginUsuario = LoginModel.fromMaptoDomain(loginMap);
+          status = true;
+        }
       }catch(error){
         print(error);
       }
