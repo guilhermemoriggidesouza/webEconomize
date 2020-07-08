@@ -31,7 +31,6 @@ class _PoupancaState extends State<Poupanca> {
       children: <Widget>[
         Container(
           height: MediaQuery.of(context).size.height / 1.23,
-          decoration: BoxDecoration(border: Border.all(color: Colors.amber)),
           child: Wrap(
             direction: Axis.horizontal,
             children: <Widget>[
