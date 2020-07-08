@@ -15,9 +15,9 @@ class TextArea extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      decoration: BoxDecoration(border: Border.all(color: Colors.amber)),
-      width: MediaQuery.of(context).size.width / 1,
       child: Container(
+        alignment: Alignment.center,
+        width: 280,
         margin: EdgeInsets.all(margin),
         child: Card(
           color: Color(0xff1B384A),

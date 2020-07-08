@@ -73,21 +73,20 @@ class _MetasState extends State<Metas> {
           spacing: 10,
           children: <Widget>[
             Container(
-              decoration: BoxDecoration(border: Border.all(color: Colors.amber)),
               width: double.infinity,
               child: Wrap(
                 alignment: WrapAlignment.center,
                 spacing: 10,
                 children: <Widget>[
                   Container(
-                    width: 90,
+                    width: 75,
                     child: InputLabel(
                       "Valor", 
                       (value){},
                     ),
                   ),
                   Container(
-                    width: 150,
+                    width: 185,
                     child: InputLabel(
                       "Titulo da metas", 
                       (value){},
