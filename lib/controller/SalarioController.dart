@@ -67,16 +67,16 @@ class SalarioController with ChangeNotifier{
 
   recuperarSalarioUsuario(int idlogin) async{
     dynamic retorno = await ApiOpa.recuperarSalarioUsuario(idlogin);
+    listaSalarios = [];
     if(retorno['resp'].length > 0 && retorno['resp'] != null){
-      listaSalarios = [];
       retorno['resp'].forEach((element) {
         listaSalarios.add(SalarioModel.fromMaptoDomain(element));
         if(element["idsalario"] == salario.idsalario){
           salario = SalarioModel.fromMaptoDomain(element);
         }
       });
-      notifyListeners();
     }
+    notifyListeners();
     return retorno['msg'];
   }
 
