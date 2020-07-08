@@ -73,20 +73,21 @@ class _MetasState extends State<Metas> {
           spacing: 10,
           children: <Widget>[
             Container(
+              decoration: BoxDecoration(border: Border.all(color: Colors.amber)),
               width: double.infinity,
               child: Wrap(
                 alignment: WrapAlignment.center,
                 spacing: 10,
                 children: <Widget>[
                   Container(
-                    width: MediaQuery.of(context).size.width / 3.6,
+                    width: 90,
                     child: InputLabel(
                       "Valor", 
                       (value){},
                     ),
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width / 2.6,
+                    width: 150,
                     child: InputLabel(
                       "Titulo da metas", 
                       (value){},
@@ -96,7 +97,8 @@ class _MetasState extends State<Metas> {
               ),
             ),
             TextArea(
-              width: MediaQuery.of(context).size.width / 1,
+              hintText: "Descrição de metas",
+              margin: 10.0,              
             ),
             ButtonLabel("Cadastrar Salario",(){}, color: Color(0xff1B8F42), textColor: Colors.white),
           ],
