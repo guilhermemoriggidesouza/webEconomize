@@ -9,7 +9,8 @@ class SalarioController with ChangeNotifier{
   Salario salario = Salario();
   SalarioModel salarioCadastrar = SalarioModel();
   List<Salario> listaSalarios = List<Salario>();
-  double valorModificar = 0.0;
+  double valorModificarMais = 0.0;
+  double valorModificarMenos = 0.0;
 
   SalarioController(){
     this.listaSalarioDetalhe.add(SalarioDetalhe(1, "Movimentação de objetivo", 400.0, 1));
@@ -17,9 +18,20 @@ class SalarioController with ChangeNotifier{
     notifyListeners();
   }
 
-  modificarSalario() async{
-    dynamic response = await ApiOpa.modificarSalario(valorModificar, salario.idsalario);
+  Future<String> modificarSalarioMais() async{
+    dynamic response = await ApiOpa.modificarSalario(valorModificarMais, salario.idsalario);
+    recuperarSalarioUsuario(salario.idlogin);
+    valorModificarMais = 0.0;
     notifyListeners();
+    return response["msg"];
+  }
+
+  Future<String> modificarSalarioMenos() async{
+    dynamic response = await ApiOpa.modificarSalario(valorModificarMenos*-1, salario.idsalario);
+    recuperarSalarioUsuario(salario.idlogin);
+    valorModificarMenos = 0.0;
+    notifyListeners();
+    return response["msg"];
   }
 
   mudarSalarioAtual(newSalario){

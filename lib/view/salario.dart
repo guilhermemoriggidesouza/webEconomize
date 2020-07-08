@@ -214,7 +214,9 @@ class _SalarioState extends State<Salario> {
     if(botaoAparece){
       return Expanded(
         child: ButtonIcon(Icon(FontAwesomeIcons.trash, color: Colors.white, size: 13), () async{
+          showLoaderDialog(context);
           String removeSalarioReturn = await Provider.of<SalarioController>(context, listen: false).removerSalario(salarioDel);
+          Navigator.pop(context);
 
           Flushbar(
             title: "Remoção de salario",
@@ -263,12 +265,21 @@ class _SalarioState extends State<Salario> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 _buildSomarSubtrairLabel("Somar", (value){
-                  Provider.of<SalarioController>(context, listen: false).valorModificar +=  double.parse(value);
+                  Provider.of<SalarioController>(context, listen: false).valorModificarMais =  double.parse(value == "" ? "0.0" : value);
                 }),
 
-                _buildSomarSubtrairButton(Color(0xff1B8F42), Icon(FontAwesomeIcons.plus, color: Colors.white,), (){
+                _buildSomarSubtrairButton(Color(0xff1B8F42), Icon(FontAwesomeIcons.plus, color: Colors.white,), ()async{
                   _formKey.currentState.save();
-                  Provider.of<SalarioController>(context, listen: false).modificarSalario();
+                  showLoaderDialog(context);
+                  String mensagem = await Provider.of<SalarioController>(context, listen: false).modificarSalarioMais();
+                  Navigator.pop(context);
+
+                  Flushbar(
+                    title: "Cadastro de salario",
+                    backgroundColor: Colors.black,
+                    message: mensagem,
+                    duration: Duration(seconds: 5),
+                  )..show(context);
                 }),
               ]
             ),
@@ -277,12 +288,21 @@ class _SalarioState extends State<Salario> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 _buildSomarSubtrairLabel("Subtrair", (value){
-                  Provider.of<SalarioController>(context, listen: false).valorModificar -= double.parse(value);
+                  Provider.of<SalarioController>(context, listen: false).valorModificarMenos = double.parse(value == "" ? "0.0" : value);
                 }),
 
-                _buildSomarSubtrairButton(Color(0xffB73232), Icon(FontAwesomeIcons.minus, color: Colors.white,), (){
+                _buildSomarSubtrairButton(Color(0xffB73232), Icon(FontAwesomeIcons.minus, color: Colors.white,), ()async{
                   _formKey.currentState.save();
-                  Provider.of<SalarioController>(context, listen: false).modificarSalario();
+                  showLoaderDialog(context);
+                  String mensagem = await Provider.of<SalarioController>(context, listen: false).modificarSalarioMenos();
+                  Navigator.pop(context);
+
+                  Flushbar(
+                    title: "Cadastro de salario",
+                    backgroundColor: Colors.black,
+                    message: mensagem,
+                    duration: Duration(seconds: 5),
+                  )..show(context);
                 }),
               ]
             )
@@ -290,7 +310,7 @@ class _SalarioState extends State<Salario> {
         ),
       );
     }else{
-      return Text("Sem Salarios");
+      return Container();
     }
   }
 
