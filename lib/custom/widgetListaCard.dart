@@ -5,8 +5,10 @@ class WidgetListaCard extends StatelessWidget {
   bool mostrarBotaoConfirma;
   List<String> mensagem = [];
   int isMovTela;
+  Function onTapConfirma;
+  Function onTapExcluir;
 
-  WidgetListaCard(this.mensagem, this.isMovTela, {this.mostrarBotaoConfirma});
+  WidgetListaCard(this.mensagem, this.isMovTela, this.onTapConfirma, this.onTapExcluir, {this.mostrarBotaoConfirma});
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +57,8 @@ class WidgetListaCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
-                      _buildBotao(true, "Confirmar",  Color(0xFF008ABE), context),
-                      _buildBotao(false, "Excluir", Color(0xFFD4302b), context)
+                      _buildBotao(true, "Confirmar",  Color(0xFF008ABE), context, onTapConfirma),
+                      _buildBotao(false, "Excluir", Color(0xFFD4302b), context, onTapExcluir)
                     ],
                   ),
                 ),
@@ -99,7 +101,7 @@ class WidgetListaCard extends StatelessWidget {
     }
   }
 
-  _buildBotao(bool botaoExcluir, String text, Color color, context ){
+  _buildBotao(bool botaoExcluir, String text, Color color, context, Function onTapFunction ){
     double sizeWidth = 125;
     if(!mostrarBotaoConfirma && !botaoExcluir) return Container();
     if(!mostrarBotaoConfirma){ 
@@ -111,11 +113,12 @@ class WidgetListaCard extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(5, 0, 5, 12),
       width: sizeWidth,
       child: ButtonLabel(
-        text, (){_build();}, color: color, textColor: Colors.white),
+        text,
+        (){
+          onTapFunction();
+        }, 
+        color: color, 
+        textColor: Colors.white),
     );
-  }
-
-  _build(){
-    return Container();
   }
 }

@@ -44,8 +44,14 @@ class _MetasState extends State<Metas> {
   _buildBody() {
     return ListView(
       children: <Widget>[
-        WidgetListaCard(mensagemNaoConcluida, 0, mostrarBotaoConfirma: true),
-        WidgetListaCard(mensagemNaoConcluida, 0, mostrarBotaoConfirma: false),
+        WidgetListaCard(mensagemNaoConcluida, 0,(){
+          _buildDialogConfirma();
+        }, (){
+        },  mostrarBotaoConfirma: true),
+        WidgetListaCard(mensagemNaoConcluida, 0,(){
+          _buildDialogConfirma();
+        }, (){
+        },  mostrarBotaoConfirma: false),
         Container(
           margin: EdgeInsets.fromLTRB(10, 10, 10, 20),            
           child: ButtonLabel("Cadastrar Metas",(){
@@ -97,12 +103,15 @@ class _MetasState extends State<Metas> {
             ),
             TextArea(
               hintText: "Descrição de metas",
-              margin: 10.0,              
+              margin: 1.0,              
             ),
             ButtonLabel("Cadastrar Salario",(){}, color: Color(0xff1B8F42), textColor: Colors.white),
           ],
         ),  
       ),
     );
+  }
+  _buildDialogConfirma(){
+    return Container();
   }
 }
