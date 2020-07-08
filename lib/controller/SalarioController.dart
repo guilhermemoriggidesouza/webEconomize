@@ -9,19 +9,16 @@ class SalarioController with ChangeNotifier{
   Salario salario = Salario();
   SalarioModel salarioCadastrar = SalarioModel();
   List<Salario> listaSalarios = List<Salario>();
-  String modificarSomarSalario = "0.0"; 
-  String modificarSubtrairSalario = "0.0"; 
+  double valorModificar = 0.0;
 
   SalarioController(){
-
     this.listaSalarioDetalhe.add(SalarioDetalhe(1, "Movimentação de objetivo", 400.0, 1));
     this.listaSalarioDetalhe.add(SalarioDetalhe(2, "uma descricao ae", 200.0, 2));
     notifyListeners();
   }
 
-  adicionarSalario(){
-    salario.salarioResto += double.parse(modificarSomarSalario);
-    salario.salarioFixo += double.parse(modificarSomarSalario);
+  modificarSalario() async{
+    dynamic response = await ApiOpa.modificarSalario(valorModificar, salario.idsalario);
     notifyListeners();
   }
 
@@ -37,16 +34,14 @@ class SalarioController with ChangeNotifier{
     notifyListeners();
   }
 
-  diminuirSalario(){
-    salario.salarioResto -= double.parse(modificarSubtrairSalario);
-    salario.salarioFixo -= double.parse(modificarSubtrairSalario);
-    notifyListeners();
-  }
-
-  removerSalario(salarioParaRemover){
-    listaSalarios.remove(salarioParaRemover);
-    notifyListeners();
-    return "Salario removido com sucesso";
+  removerSalario(Salario salarioParaRemover) async{
+    dynamic retorno = await ApiOpa.removerSalario(salarioParaRemover.idsalario);
+    if(retorno['resp'] == []) return retorno["msg"];
+    if(salarioParaRemover.idsalario == salario.idsalario){
+      salario = Salario();
+    }
+    recuperarSalarioUsuario(salarioParaRemover.idlogin);
+    return retorno["msg"];
   }
 
   Future<String> cadastrarSalario() async{

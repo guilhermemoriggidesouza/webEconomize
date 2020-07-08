@@ -56,4 +56,29 @@ class ApiOpa {
     }
   }
 
+  static removerSalario(int idSalario) async{
+    try{
+      var urlSalario = 'https://opaapi.herokuapp.com/salario/$idSalario';
+      var response = await http.delete(urlSalario, headers: {"Content-Type": "application/json"});
+      
+      return json.decode(response.body);
+
+    }catch(error){
+      return {"msg": "Error, tente novamento mais tarde", "resp": [], "error":error};
+    }
+  }
+
+  static modificarSalario(double valorModificar, int idsalario) async{
+    try{
+      var urlSalario = 'https://opaapi.herokuapp.com/salario/$idsalario';
+      var body = json.encode({"valorModificar": valorModificar});
+      var response = await http.put(urlSalario, headers: {"Content-Type": "application/json"}, body: body);
+      
+      return json.decode(response.body);
+
+    }catch(error){
+      return {"msg": "Error, tente novamento mais tarde", "resp": [], "error":error};
+    }   
+  }
+
 }

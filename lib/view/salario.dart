@@ -25,9 +25,11 @@ class Salario extends StatefulWidget {
 }
 
 class _SalarioState extends State<Salario> {
+  SalarioController salarioController;
 
   @override
   Widget build(BuildContext context) {
+    salarioController = Provider.of<SalarioController>(context);
     return Scaffold(
       backgroundColor: Color(0xff1B384A),
       body:SingleChildScrollView(
@@ -97,7 +99,6 @@ class _SalarioState extends State<Salario> {
                 message: mensagem,
                 duration: Duration(seconds: 5),
               )..show(context);
-
               
             }, color: Color(0xff1B8F42), textColor: Colors.white)
           ],
@@ -127,8 +128,8 @@ class _SalarioState extends State<Salario> {
 
   _buildListDataTableRows(lista){
       List<DataRow> dataRows = [];
-      lista.forEach((element) {
-        dataRows.add(_buildDataRows(element.dataCadastro, element.salarioFixo.toString(), element));
+      lista.asMap().forEach((index, element) {
+        dataRows.add(_buildDataRows(element.dataCadastro, element.salarioFixo.toString(), element, (index == lista.length-1)));
       });
       return dataRows;
   }
@@ -165,34 +166,22 @@ class _SalarioState extends State<Salario> {
     ];
   }
 
-  _buildDataRows(String data, String valor, salario){
+  _buildDataRows(String data, String valor, salarioRec, bool mostrarDelete){
+    Color corBotao = salarioController.salario.idsalario == salarioRec.idsalario ? Color(0xff008ABE): Color(0xff1B8F42);
     return DataRow(cells: [
       DataCell(
         Container(
+          width: 90,
           child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Container(
-                width: 40,
-                height: 35,
-                margin: EdgeInsets.only(right: 10),
-                child: ButtonIcon(Icon(FontAwesomeIcons.handPointer, color: Colors.white, size: 13), (){
-                  Provider.of<SalarioController>(context, listen:false).mudarSalarioAtual(salario);
-                }, color: Color(0xff1B8F42), internalPadding: EdgeInsets.zero)
+              Expanded(
+                child: ButtonIcon(Icon(FontAwesomeIcons.handPointer, color:  Colors.white, size: 13), (){
+                  Provider.of<SalarioController>(context, listen:false).mudarSalarioAtual(salarioRec);
+                }, color: corBotao, internalPadding: EdgeInsets.zero)
               ),
-              Container(
-                width: 40,
-                height: 35,
-                child: ButtonIcon(Icon(FontAwesomeIcons.trash, color: Colors.white, size: 13), (){
-                  String removeSalarioReturn = Provider.of<SalarioController>(context, listen: false).removerSalario(salario);
-
-                  Flushbar(
-                    title: "Remoção de salario",
-                    backgroundColor: Colors.black,
-                    message: removeSalarioReturn,
-                    duration: Duration(seconds: 2),
-                  )..show(context);
-                }, color: Color(0xffB73232), internalPadding: EdgeInsets.zero,),
-              ),
+             _buildBotaoExcluir(mostrarDelete, salarioRec)
               
             ]
           )
@@ -219,6 +208,25 @@ class _SalarioState extends State<Salario> {
     ]);
   }
 
+  _buildBotaoExcluir(bool botaoAparece, salarioDel){
+    if(botaoAparece){
+      return Expanded(
+        child: ButtonIcon(Icon(FontAwesomeIcons.trash, color: Colors.white, size: 13), () async{
+          String removeSalarioReturn = await Provider.of<SalarioController>(context, listen: false).removerSalario(salarioDel);
+
+          Flushbar(
+            title: "Remoção de salario",
+            backgroundColor: Colors.black,
+            message: removeSalarioReturn,
+            duration: Duration(seconds: 2),
+          )..show(context);
+        }, color: Color(0xffB73232), internalPadding: EdgeInsets.zero,),
+      );
+    }else{
+      return Container();
+    }
+  }
+
   _buildSomarSubtrairLabel(String text, Function(String) setLabel){
     return Center(
       child:Container(
@@ -243,41 +251,45 @@ class _SalarioState extends State<Salario> {
 
 
   _buildInputsModificarSomarSubtrair(){
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _buildSomarSubtrairLabel("Somar", (value){
-                Provider.of<SalarioController>(context, listen: false).modificarSomarSalario = value;
-              }),
+    if(salarioController.salario.idsalario == salarioController.listaSalarios.last.idsalario){
+      return Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                _buildSomarSubtrairLabel("Somar", (value){
+                  Provider.of<SalarioController>(context, listen: false).valorModificar +=  double.parse(value);
+                }),
 
-              _buildSomarSubtrairButton(Color(0xff1B8F42), Icon(FontAwesomeIcons.plus, color: Colors.white,), (){
-                _formKey.currentState.save();
-                Provider.of<SalarioController>(context, listen: false).adicionarSalario();
-              }),
-            ]
-          ),
+                _buildSomarSubtrairButton(Color(0xff1B8F42), Icon(FontAwesomeIcons.plus, color: Colors.white,), (){
+                  _formKey.currentState.save();
+                  Provider.of<SalarioController>(context, listen: false).modificarSalario();
+                }),
+              ]
+            ),
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _buildSomarSubtrairLabel("Subtrair", (value){
-                Provider.of<SalarioController>(context, listen: false).modificarSubtrairSalario = value;
-              }),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                _buildSomarSubtrairLabel("Subtrair", (value){
+                  Provider.of<SalarioController>(context, listen: false).valorModificar -= double.parse(value);
+                }),
 
-              _buildSomarSubtrairButton(Color(0xffB73232), Icon(FontAwesomeIcons.minus, color: Colors.white,), (){
-                _formKey.currentState.save();
-                Provider.of<SalarioController>(context, listen: false).diminuirSalario();
-              }),
-            ]
-          )
-        ],
-      ),
-    );
+                _buildSomarSubtrairButton(Color(0xffB73232), Icon(FontAwesomeIcons.minus, color: Colors.white,), (){
+                  _formKey.currentState.save();
+                  Provider.of<SalarioController>(context, listen: false).modificarSalario();
+                }),
+              ]
+            )
+          ],
+        ),
+      );
+    }else{
+      return Container();
+    }
   }
 
   _buildTextTopo(){
