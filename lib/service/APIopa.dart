@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:webEconomize/models/login.dart';
-import 'package:webEconomize/models/salarioModel.dart';
+import 'package:webEconomize/models/salario.dart';
 
 class ApiOpa {
   static criarSessionLogin(String email, String senha) async {
@@ -14,7 +14,7 @@ class ApiOpa {
       return json.decode(response.body);
       
     } catch (error) {
-      return {"msg": "Error, tente novamento mais tarde", "resp": error};
+      return {"msg": "Error, tente novamento mais tarde", "resp": [], "error":error};
     }
   }
 
@@ -27,7 +27,7 @@ class ApiOpa {
       return json.decode(response.body);
 
     }catch(error){
-      return {"msg": "Error, tente novamento mais tarde", "resp": error};
+      return {"msg": "Error, tente novamento mais tarde", "resp": [], "error":error};
     }
   }
 
@@ -40,8 +40,45 @@ class ApiOpa {
       return json.decode(response.body);
 
     }catch(error){
-      return {"msg": "Error, tente novamento mais tarde", "resp": error};
+      return {"msg": "Error, tente novamento mais tarde", "resp": [], "error":error};
     }
+  }
+
+  static recuperarSalarioUsuario(int idlogin) async{
+     try{
+      var urlSalario = 'https://opaapi.herokuapp.com/salario/$idlogin';
+      var response = await http.get(urlSalario, headers: {"Content-Type": "application/json"});
+      
+      return json.decode(response.body);
+
+    }catch(error){
+      return {"msg": "Error, tente novamento mais tarde", "resp": [], "error":error};
+    }
+  }
+
+  static removerSalario(int idSalario) async{
+    try{
+      var urlSalario = 'https://opaapi.herokuapp.com/salario/$idSalario';
+      var response = await http.delete(urlSalario, headers: {"Content-Type": "application/json"});
+      
+      return json.decode(response.body);
+
+    }catch(error){
+      return {"msg": "Error, tente novamento mais tarde", "resp": [], "error":error};
+    }
+  }
+
+  static modificarSalario(double valorModificar, int idsalario) async{
+    try{
+      var urlSalario = 'https://opaapi.herokuapp.com/salario/$idsalario';
+      var body = json.encode({"valorModificar": valorModificar});
+      var response = await http.put(urlSalario, headers: {"Content-Type": "application/json"}, body: body);
+      
+      return json.decode(response.body);
+
+    }catch(error){
+      return {"msg": "Error, tente novamento mais tarde", "resp": [], "error":error};
+    }   
   }
 
 }

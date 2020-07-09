@@ -32,10 +32,11 @@ class SalarioModel{
     if (map == null) return null;
   
     return Salario(
+      idsalario: map['idsalario'],
       idlogin: map['idlogin'],
-      dataCadastro: map['data_cadastro'],
-      salarioResto: map['valor_resto'],
-      salarioFixo: map['valor_fixo'],
+      dataCadastro: map['mes'].toString().substring(0,10),
+      salarioResto: map['valor_resto'].toDouble(),
+      salarioFixo: map['valor_fixo'].toDouble(),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:webEconomize/controller/LoginController.dart';
+import 'package:webEconomize/controller/SalarioController.dart';
 import 'package:webEconomize/custom/buttonIcon.dart';
 import 'package:webEconomize/custom/exit.dart';
 import 'package:webEconomize/custom/metas.dart';
@@ -65,21 +66,21 @@ class _MainPageState extends State<MainPage> {
 
   _buildBottomNav(){
     return BottomNavigationBar(
-        backgroundColor: Color(0xff141F27),
-        type: BottomNavigationBarType.fixed,
-        items: <BottomNavigationBarItem>[
-          _buildBottomNavItem(Icons.home, 'Início'),
-          _buildBottomNavItem(Exit.icon_ionic_md_exit, 'Mov Saida'),
-          _buildBottomNavItem(Icons.attach_money, 'Salario'),
-          _buildBottomNavItem(MetasIcons.album, 'Metas'),
-          _buildBottomNavItem(PoupancaIcons.account_balance, 'Poupanca'),
-          
-        ],
+      backgroundColor: Color(0xff141F27),
+      type: BottomNavigationBarType.fixed,
+      items: <BottomNavigationBarItem>[
+        _buildBottomNavItem(Icons.home, 'Início'),
+        _buildBottomNavItem(Exit.icon_ionic_md_exit, 'Mov Saida'),
+        _buildBottomNavItem(Icons.attach_money, 'Salario'),
+        _buildBottomNavItem(MetasIcons.album, 'Metas'),
+        _buildBottomNavItem(PoupancaIcons.account_balance, 'Poupanca'),
+        
+      ],
 
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
-      );
+      currentIndex: _selectedIndex,
+      selectedItemColor: Colors.amber[800],
+      onTap: _onItemTapped,
+    );
   }
   
   BottomNavigationBarItem _buildBottomNavItem(icon, text){
@@ -101,7 +102,10 @@ class _MainPageState extends State<MainPage> {
       title: _buildNomeUser(), 
       backgroundColor: Color(0xff142129),
       actions: <Widget>[
-        ButtonIcon(Icon(Power.icon_awesome_power_off, color: Colors.white,), ()=>{} , label: "Sair")
+        ButtonIcon(Icon(Power.icon_awesome_power_off, color: Colors.white,), (){
+          Provider.of<SalarioController>(context, listen: false).limparSalario();
+          Provider.of<LoginController>(context, listen: false).limparLogin();
+        } , label: "Sair")
       ],
     );
   }

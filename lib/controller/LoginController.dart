@@ -6,7 +6,6 @@ import 'package:webEconomize/models/login.dart';
 import 'package:webEconomize/service/APIopa.dart';
 
 class LoginController with ChangeNotifier{
-  int idLogin = null;
   String email = "";
   String senha = "";
   Login loginUsuario = null;
@@ -20,20 +19,29 @@ class LoginController with ChangeNotifier{
     senha = value;
   }
 
-  Future<String> validarLogin(context) async{
+  limparLogin(){
+    loginUsuario = null;
+    notifyListeners();
+  }
+
+  Future<Map<String, dynamic>> validarLogin(context) async{
     try{
-      if(email == "" || senha == "") return "informe todos os valores";
+      if(email == "" || senha == "") return {"msg":"informe todos os valores", "status": false};
       dynamic response = await ApiOpa.criarSessionLogin(email, senha);
       dynamic loginMap = response["resp"];
+      bool status = false;
       try{
-        loginUsuario = LoginModel.fromMaptoDomain(loginMap);
+        if(loginMap != null){
+          loginUsuario = LoginModel.fromMaptoDomain(loginMap);
+          status = true;
+        }
       }catch(error){
         print(error);
       }
       notifyListeners();
-      return response["msg"];
+      return {"msg" : response["msg"], "status": status};
     }catch(error){
-      return error.toString();
+      return {"msg" : error.toString(), "status": false};
     }
   }
 

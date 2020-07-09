@@ -21,21 +21,26 @@ class DialogCustom extends StatelessWidget implements Dialog {
       child: Wrap(
         children: <Widget>[
           Container(
-            width: 300.0,
+            width: 350.0,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Padding(  
-                      padding: EdgeInsets.all(15.0),
-                      child: Text(
-                        label,
-                        style: TextStyle(color: Colors.white, fontSize: 24),
-                      ),
+                    Flexible(  
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text(
+                          label,
+                          style: TextStyle(color: Colors.white, fontSize: 24),
+                        ),
+                      )
                     ),
-                    ButtonIcon(Icon(FontAwesomeIcons.solidWindowClose, color: Colors.white, size: 24), (){
+                    ButtonIcon(
+                      Icon(FontAwesomeIcons.solidWindowClose, color: Colors.white, size: 24), (){
                       Navigator.pop(context, false);
                     })
                   ],
