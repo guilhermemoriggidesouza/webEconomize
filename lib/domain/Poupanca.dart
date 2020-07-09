@@ -7,6 +7,6 @@ class Poupanca{
     this.idsalario,
     this.idlogin,
     this.valor
-  })
+  });
  
-  }
+}

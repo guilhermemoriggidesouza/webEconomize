@@ -1,5 +1,5 @@
 class MovSaida{
-   int idsalario;
+  int idsalario;
   double valor;
   String titulo;
   String texto;
@@ -12,7 +12,6 @@ class MovSaida{
     this.titulo,
     this.texto,
     this.status
-    
   });
 
 }

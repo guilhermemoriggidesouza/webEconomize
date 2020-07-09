@@ -62,12 +62,7 @@ class _LoginState extends State<Login> {
                 showLoaderDialog(context);
                 Map<String, dynamic> retorno = await Provider.of<LoginController>(context, listen: false).validarLogin(context);
                 Navigator.pop(context);
-
-                if(retorno["status"] == true){
-                  int idlogin = Provider.of<LoginController>(context, listen: false).loginUsuario.idlogin;
-                  Provider.of<SalarioController>(context, listen: false).recuperarSalarioUsuario(idlogin);
-                }
-
+                
                 Flushbar(
                   title: "Login",
                   backgroundColor: Colors.black,
