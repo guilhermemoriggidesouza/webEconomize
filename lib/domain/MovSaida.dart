@@ -1,4 +1,5 @@
 class MovSaida{
+  int idmov_saida;
   int idsalario;
   double valor;
   String titulo;
@@ -7,6 +8,7 @@ class MovSaida{
  
 
   MovSaida({
+    this.idmov_saida,
     this.idsalario,
     this.valor,
     this.titulo,

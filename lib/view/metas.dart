@@ -96,7 +96,7 @@ class _MetasState extends State<Metas> {
                   }         
                 ),
               ),
-              ButtonLabel("Cadastrar Salario",() async{
+              ButtonLabel("Cadastrar Metas",() async{
                 _formKey.currentState.save();
                 metasController.metaCadastrar.idlogin = Provider.of<LoginController>(context, listen: false).loginUsuario.idlogin;
                 showLoaderDialog(context);
@@ -104,7 +104,7 @@ class _MetasState extends State<Metas> {
                 Navigator.pop(context);
 
                 Flushbar(
-                  title: "Cadastro de salario",
+                  title: "Cadastro de Metas",
                   backgroundColor: Colors.black,
                   message: respostaCadastroMeta,
                   duration: Duration(seconds: 2),
