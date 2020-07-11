@@ -21,7 +21,7 @@ class DialogCustom extends StatelessWidget implements Dialog {
       child: Wrap(
         children: <Widget>[
           Container(
-            width: 350.0,
+            margin: EdgeInsets.symmetric(horizontal: 50),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,7 +46,7 @@ class DialogCustom extends StatelessWidget implements Dialog {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10, top: 20, bottom:10),
+                  padding: const EdgeInsets.only(top: 20, bottom:10),
                   child: body
                 ), 
               ],

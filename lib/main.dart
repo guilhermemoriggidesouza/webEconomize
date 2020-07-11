@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:webEconomize/controller/LoginController.dart';
+import 'package:webEconomize/controller/MetasController.dart';
 import 'package:webEconomize/controller/PoupancaController.dart';
 import 'package:webEconomize/controller/SalarioController.dart';
 import 'package:webEconomize/view/main_page.dart';
@@ -13,6 +14,7 @@ void main() => runApp(
       ChangeNotifierProvider<SalarioController>(create: (_) => SalarioController()),
       ChangeNotifierProvider<LoginController>(create: (_) => LoginController()),
       ChangeNotifierProvider<PoupancaController>(create: (_) => PoupancaController()),
+      ChangeNotifierProvider<MetasController>(create: (_) => MetasController()),
     ],
     child: MyApp(),
   ),

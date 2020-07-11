@@ -34,16 +34,20 @@ class PoupancaController with ChangeNotifier{
 
   recuperarPoupanca(int idsalario, int idlogin) async{
     dynamic responsePoupancaBySalario = await ApiOpa.recuperarPoupancaBySalario(idsalario);
-    dynamic responsePoupancaByLogin = await ApiOpa.recuperarPoupancaByLogin(idlogin);
-    if(responsePoupancaBySalario['resp'] !=  [] && responsePoupancaByLogin["resp"] != []){
+    if(responsePoupancaBySalario['resp'] !=  []){
       poupanca = PoupancaModel.fromMapToDomain(responsePoupancaBySalario['resp']);
+    }
+    await recuperarPoupancaByLogin(idlogin);
+    notifyListeners();
+  }
+
+  recuperarPoupancaByLogin(int idlogin) async{
+    dynamic responsePoupancaByLogin = await ApiOpa.recuperarPoupancaByLogin(idlogin);
+    if(responsePoupancaByLogin["resp"] != []){
       poupancaGeral = 0.0;
       responsePoupancaByLogin["resp"].forEach((element){
         poupancaGeral += element['valor'];
       });
-      notifyListeners();
     }
   }
-
-  
 }

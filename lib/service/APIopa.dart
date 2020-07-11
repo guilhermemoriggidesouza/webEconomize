@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:webEconomize/models/login.dart';
+import 'package:webEconomize/models/metas.dart';
 import 'package:webEconomize/models/salario.dart';
 
 class ApiOpa {
@@ -37,6 +38,19 @@ class ApiOpa {
       var urlSalario = 'https://opaapi.herokuapp.com/salario';
       var body = json.encode(salario.toMap());
       var response = await http.post(urlSalario, headers: {"Content-Type": "application/json"}, body: body);
+      
+      return json.decode(response.body);
+
+    }catch(error){
+      return {"msg": "Error, tente novamento mais tarde", "resp": [], "error":error};
+    }
+  }
+
+  static cadastrarMetas(MetaModel meta) async{
+    try{
+      var urlMetas = 'https://opaapi.herokuapp.com/metas';
+      var body = json.encode(meta.toMap());
+      var response = await http.post(urlMetas, headers: {"Content-Type": "application/json"}, body: body);
       
       return json.decode(response.body);
 

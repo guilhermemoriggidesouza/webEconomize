@@ -80,16 +80,14 @@ class _SalarioState extends State<Salario> {
         child: Column(
           children: <Widget>[
             InputLabel("Valor Salario", (value){
-              SalarioModel salarioModel = Provider.of<SalarioController>(context, listen:false).salarioCadastrar;
-
-              salarioModel.salarioFixo = double.parse(value);
-              salarioModel.salarioResto = double.parse(value);
-              salarioModel.idlogin = idlogin;
+              salarioController.salarioCadastrar.salarioFixo = double.parse(value);
+              salarioController.salarioCadastrar.salarioResto = double.parse(value);
+              salarioController.salarioCadastrar.idlogin = idlogin;
             }),
             ButtonLabel("Cadastrar Salario", () async{
               _formKeySalario.currentState.save();
               showLoaderDialog(context);
-              String mensagem = await Provider.of<SalarioController>(context, listen:false).cadastrarSalario();
+              String mensagem = await salarioController.cadastrarSalario();
               Navigator.pop(context);
 
               Flushbar(
@@ -179,7 +177,7 @@ class _SalarioState extends State<Salario> {
             children: <Widget>[
               Expanded(
                 child: ButtonIcon(Icon(FontAwesomeIcons.handPointer, color:  Colors.white, size: 13), (){
-                  Provider.of<SalarioController>(context, listen:false).mudarSalarioAtual(salarioRec);
+                  salarioController.mudarSalarioAtual(salarioRec);
                 }, color: corBotao, internalPadding: EdgeInsets.zero)
               ),
              _buildBotaoExcluir(mostrarDelete, salarioRec)
@@ -214,7 +212,7 @@ class _SalarioState extends State<Salario> {
       return Expanded(
         child: ButtonIcon(Icon(FontAwesomeIcons.trash, color: Colors.white, size: 13), () async{
           showLoaderDialog(context);
-          String removeSalarioReturn = await Provider.of<SalarioController>(context, listen:false).removerSalario(salarioDel);
+          String removeSalarioReturn = await salarioController.removerSalario(salarioDel);
           Navigator.pop(context);
 
           Flushbar(
@@ -269,13 +267,13 @@ class _SalarioState extends State<Salario> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     _buildSomarSubtrairLabel("Somar", (value){
-                      Provider.of<SalarioController>(context, listen:false).valorModificarMais =  double.parse(value == "" ? "0.0" : value);
+                      salarioController.valorModificarMais =  double.parse(value == "" ? "0.0" : value);
                     }),
 
                     _buildSomarSubtrairButton(Color(0xff1B8F42), Icon(FontAwesomeIcons.plus, color: Colors.white,), ()async{
                       _formKey.currentState.save();
                       showLoaderDialog(context);
-                      String mensagem = await Provider.of<SalarioController>(context, listen:false).modificarSalarioMais();
+                      String mensagem = await salarioController.modificarSalarioMais();
                       Navigator.pop(context);
 
                       Flushbar(
@@ -292,13 +290,13 @@ class _SalarioState extends State<Salario> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     _buildSomarSubtrairLabel("Subtrair", (value){
-                      Provider.of<SalarioController>(context, listen:false).valorModificarMenos = double.parse(value == "" ? "0.0" : value);
+                      salarioController.valorModificarMenos = double.parse(value == "" ? "0.0" : value);
                     }),
 
                     _buildSomarSubtrairButton(Color(0xffB73232), Icon(FontAwesomeIcons.minus, color: Colors.white,), ()async{
                       _formKey.currentState.save();
                       showLoaderDialog(context);
-                      String mensagem = await Provider.of<SalarioController>(context, listen:false).modificarSalarioMenos();
+                      String mensagem = await salarioController.modificarSalarioMenos();
                       Navigator.pop(context);
 
                       Flushbar(

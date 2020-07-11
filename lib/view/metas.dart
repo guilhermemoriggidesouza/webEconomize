@@ -1,67 +1,56 @@
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
+import 'package:webEconomize/controller/LoginController.dart';
+import 'package:webEconomize/controller/MetasController.dart';
 import 'package:webEconomize/custom/dialog.dart';
 import 'package:webEconomize/custom/input.dart';
 import 'package:webEconomize/custom/textArea.dart';
 import 'package:webEconomize/custom/widgetListaCard.dart';
 import 'package:webEconomize/custom/button.dart';
 
+final _formKey = GlobalKey<FormState>();
 class Metas extends StatefulWidget {
   @override
   _MetasState createState() => _MetasState();
 }
 
 class _MetasState extends State<Metas> {
-  final List<String> mensagemNaoConcluida = [
-    "é simplesmente um texto fictício da indústria tipográfica e de impressão." +
-        "Lorem Ipsum é o texto fictício padrão do setor desde os anos 1500",
-    "é simplesmente um texto fictício da indústria tipográfica e de impressão." +
-        "Lorem Ipsum é o texto fictício padrão do setor desde os anos 1500",
-    "é simplesmente um texto fictício da indústria tipográfica e de impressão." +
-        "Lorem Ipsum é o texto fictício padrão do setor desde os anos 1500",
-    "é simplesmente um texto fictício da indústria tipográfica e de impressão." +
-        "Lorem Ipsum é o texto fictício padrão do setor desde os anos 1500",
-  ];
-  final List<String> mensagemConcluida = [
-    "é simplesmente um texto fictício da indústria tipográfica e de impressão." +
-        "Lorem Ipsum é o texto fictício padrão do setor desde os anos 1500",
-    "é simplesmente um texto fictício da indústria tipográfica e de impressão." +
-        "Lorem Ipsum é o texto fictício padrão do setor desde os anos 1500",
-    "é simplesmente um texto fictício da indústria tipográfica e de impressão." +
-        "Lorem Ipsum é o texto fictício padrão do setor desde os anos 1500",
-    "é simplesmente um texto fictício da indústria tipográfica e de impressão." +
-        "Lorem Ipsum é o texto fictício padrão do setor desde os anos 1500",
-  ];
+  MetasController metasController; 
   @override
   Widget build(BuildContext context) {
+    metasController = Provider.of<MetasController>(context, listen: false);
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
       backgroundColor: Color(0xff1B384A),
-      body: _buildBody(),
-    );
-  }
+      body: ListView(
+        children: <Widget>[
 
-  _buildBody() {
-    return ListView(
-      children: <Widget>[
-        WidgetListaCard(mensagemNaoConcluida, 0,(){
-          _buildDialogConfirma();
-        }, (){
-        },  mostrarBotaoConfirma: true),
-        WidgetListaCard(mensagemNaoConcluida, 0,(){
-          _buildDialogConfirma();
-        }, (){
-        },  mostrarBotaoConfirma: false),
-        Container(
-          margin: EdgeInsets.fromLTRB(10, 10, 10, 20),            
-          child: ButtonLabel("Cadastrar Metas",(){
-            _buildDialogCadastroMetas();
+          WidgetListaCard(metasController.listaInfosMetasNaoConcluidas, true, 
+          onTapConfirma:(index){
+            metasController.concluirMeta(index);
           }, 
-          color: Color(0xFF008ABE), 
-          textColor: Colors.white
-          )
-        ),
-      ],
+          onTapExcluir: (index){
+            metasController.removerMeta(index);
+          },  
+          mostrarBotaoConfirma: true),
+
+
+          WidgetListaCard(metasController.listaInfosMetasConcluidas, true, 
+          onTapExcluir: (index){
+            metasController.removerMeta(index);
+          },  
+          mostrarBotaoConfirma: false),
+          
+
+          Container(
+            margin: EdgeInsets.fromLTRB(10, 10, 10, 20),            
+            child: ButtonLabel("Cadastrar Metas",(){
+              _buildDialogCadastroMetas();
+            }, color: Color(0xFF008ABE), textColor: Colors.white)
+          ),
+        ],
+      )
     );
   }
 
@@ -72,46 +61,76 @@ class _MetasState extends State<Metas> {
 
   _buildCorpoDialog(){
     return Container(
-      height: MediaQuery.of(context).size.height / 2.6,
-      child: Container(
-        height: 80,
-        child: Wrap(
-          spacing: 10,
-          children: <Widget>[
-            Container(
-              width: double.infinity,
-              child: Wrap(
-                alignment: WrapAlignment.center,
-                spacing: 10,
-                children: <Widget>[
-                  Container(
-                    width: 75,
-                    child: InputLabel(
-                      "Valor", 
-                      (value){},
-                    ),
-                  ),
-                  Container(
-                    width: 185,
-                    child: InputLabel(
-                      "Titulo da metas", 
-                      (value){},
-                    ),
-                  ),
-                ],
+      child: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 4),
+                child: InputLabel(
+                  "Valor", 
+                  (value){
+                    metasController.metaCadastrar.valor = double.parse(value == "" ? "0.0" : value);
+                  },
+                ),
               ),
-            ),
-            TextArea(
-              hintText: "Descrição de metas",
-              margin: 1.0,              
-            ),
-            ButtonLabel("Cadastrar Salario",(){}, color: Color(0xff1B8F42), textColor: Colors.white),
-          ],
-        ),  
-      ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 4),
+                child: InputLabel(
+                  "Titulo da metas", 
+                  (value){
+                    metasController.metaCadastrar.titulo = value;
+                  },
+                ),
+              ),
+              Container(
+                child: TextArea(
+                  hintText: "Descrição de metas",
+                  margin: 1.0,     
+                  onTap: (value){
+                    metasController.metaCadastrar.texto = value;
+                  }         
+                ),
+              ),
+              ButtonLabel("Cadastrar Salario",() async{
+                _formKey.currentState.save();
+                metasController.metaCadastrar.idlogin = Provider.of<LoginController>(context, listen: false).loginUsuario.idlogin;
+                showLoaderDialog(context);
+                String respostaCadastroMeta = await metasController.cadastrarMetas();
+                Navigator.pop(context);
+
+                Flushbar(
+                  title: "Cadastro de salario",
+                  backgroundColor: Colors.black,
+                  message: respostaCadastroMeta,
+                  duration: Duration(seconds: 2),
+                )..show(context);
+              }, color: Color(0xff1B8F42), textColor: Colors.white),
+            ]
+          ),
+        )
+      )
     );
   }
-  _buildDialogConfirma(){
-    return Container();
+
+  showLoaderDialog(BuildContext context){
+    AlertDialog alert=AlertDialog(
+      content: new Row(
+        children: [
+          CircularProgressIndicator(),
+          Container(margin: EdgeInsets.only(left: 7),child:Text("Loading..." )),
+        ],),
+    );
+    showDialog(barrierDismissible: false,
+      context:context,
+      builder:(BuildContext context){
+        return alert;
+      },
+    );
   }
+
 }

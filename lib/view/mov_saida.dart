@@ -46,13 +46,13 @@ class _MovSaidaState extends State<MovSaida> {
   _buildBody(){
     return ListView(
       children: <Widget>[
-        WidgetListaCard(mensagemNaoConcluida, 1, (){
-          _buildDialogConfirma();
-        }, (){
-        },  mostrarBotaoConfirma: true),
-        WidgetListaCard(mensagemNaoConcluida, 1,(){
-        }, (){
-        },  mostrarBotaoConfirma: false),
+        // WidgetListaCard(mensagemNaoConcluida, 1, (){
+        //   _buildDialogConfirma();
+        // }, (){
+        // },  mostrarBotaoConfirma: true),
+        // WidgetListaCard(mensagemNaoConcluida, 1,(){
+        // }, (){
+        // },  mostrarBotaoConfirma: false),
         Container(
           margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
           child:ButtonLabel(

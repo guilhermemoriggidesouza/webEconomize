@@ -1,4 +1,5 @@
 class Meta{
+  int idmeta;
   int idlogin;
   double valor;
   String titulo;
@@ -6,12 +7,12 @@ class Meta{
   String status;
 
   Meta({
+    this.idmeta,
     this.idlogin,
     this.valor,
     this.titulo,
     this.texto,
     this.status
-    
   });
 
 }
