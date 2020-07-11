@@ -21,7 +21,6 @@ class MovSaidaModel{
   Map<String, dynamic> toMap() {
     return {
       'idsalario': idsalario,
-      'valor': valor,
       'titulo': titulo,
       'texto': texto,
     };

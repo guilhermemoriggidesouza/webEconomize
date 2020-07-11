@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:webEconomize/models/login.dart';
 import 'package:webEconomize/models/metas.dart';
+import 'package:webEconomize/models/movSaida.dart';
 import 'package:webEconomize/models/salario.dart';
 
 class ApiOpa {
@@ -51,6 +52,19 @@ class ApiOpa {
       var urlMetas = 'https://opaapi.herokuapp.com/metas';
       var body = json.encode(meta.toMap());
       var response = await http.post(urlMetas, headers: {"Content-Type": "application/json"}, body: body);
+      
+      return json.decode(response.body);
+
+    }catch(error){
+      return {"msg": "Error, tente novamento mais tarde", "resp": [], "error":error};
+    }
+  }
+
+  static cadastrarMovSaida(MovSaidaModel movSaida) async{
+    try{
+      var urlMovSaida = 'https://opaapi.herokuapp.com/movSaida';
+      var body = json.encode(movSaida.toMap());
+      var response = await http.post(urlMovSaida, headers: {"Content-Type": "application/json"}, body: body);
       
       return json.decode(response.body);
 
