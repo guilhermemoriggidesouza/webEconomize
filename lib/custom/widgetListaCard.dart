@@ -1,37 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:webEconomize/custom/button.dart';
-import 'package:webEconomize/view/metas.dart';
+import 'package:webEconomize/domain/Meta.dart';
 
 class WidgetListaCard extends StatelessWidget {
   bool mostrarBotaoConfirma;
   bool isMovTela;
-  List<Map<String, String>> listaInfos = [];
+  List<Meta> listaInfos = [];
   Function(int) onTapConfirma;
   Function(int) onTapExcluir;
 
-  WidgetListaCard(this.listaInfos, this.isMovTela,{this.onTapConfirma, this.onTapExcluir, this.mostrarBotaoConfirma});
+  WidgetListaCard(this.listaInfos, this.isMovTela, {this.onTapConfirma, this.onTapExcluir, this.mostrarBotaoConfirma});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 250,
       child: ListView.builder(
-        shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         itemCount: listaInfos.length,
         itemBuilder: (context, index) {
         return Container(
-          height: 250,
+          height: 500,
           child: Card(
             color: Colors.black.withOpacity(0.5),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0, bottom: 3.0, left: 5.0, right: 5.0),
                   child: Container(
                     child: Text(
-                      listaInfos[index]["titulo"],
+                      listaInfos[index].titulo,
                       style: TextStyle(color: Colors.white, fontSize: 15),
                     ),
                   ),
@@ -42,7 +43,7 @@ class WidgetListaCard extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 20.0, left: 40, right: 40, bottom: 10),
 
                     child: Text(
-                      listaInfos[index]["mensagem"],
+                      listaInfos[index].texto,
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                         color: Colors.white,
@@ -51,18 +52,23 @@ class WidgetListaCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                _buildValorTelaMovSaida(isMovTela, context, listaInfos[index]["Valor"]),
+                _buildValorTelaMovSaida(isMovTela, context, listaInfos[index].valor.toString()),
                 Container(
-                  height: 48,
+                  width: 250,
+                  padding: EdgeInsets.all(3),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment:  MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
-                      _buildBotao(true, "Confirmar",  Color(0xFF008ABE), context, onTapConfirma, index),
-                      _buildBotao(false, "Excluir", Color(0xFFD4302b), context, onTapExcluir, index)
+                      _buildBotao("Confirmar",  Color(0xFF008ABE), onTapConfirma, listaInfos[index].idmeta),
+                      Container(
+                        width: 3,
+                      ),
+                      _buildBotao("Excluir", Color(0xffB73232), onTapExcluir, listaInfos[index].idmeta)
                     ],
                   ),
-                ),
+                )
               ],
             ), 
           ),
@@ -96,28 +102,21 @@ class WidgetListaCard extends StatelessWidget {
         ),
       );
     }else{
-      return Container(
-        margin: EdgeInsets.only(right: 40, bottom: 5),
-      );
+      return Container();
     }
   }
 
-  _buildBotao(bool botaoExcluir, String text, Color color, context, Function onTapFunction, int index){
-    double sizeWidth = 125;
-    if(!mostrarBotaoConfirma && !botaoExcluir) return Container();
-    if(!mostrarBotaoConfirma){ 
-      text = "Excluir"; 
-      color = Color(0xFFD4302b);
-      sizeWidth = 235;
-    }
-    return Container(
-      padding: EdgeInsets.fromLTRB(5, 0, 5, 12),
-      width: sizeWidth,
+  _buildBotao(String text, Color color, Function(int) onTapFunction, int index){
+    return Expanded(
       child: ButtonLabel(
         text,
-        onTapFunction(index), 
+        (){
+          onTapFunction(index);
+        },
+        height: 48, 
         color: color, 
-        textColor: Colors.white),
+        textColor: Colors.white
+      ),
     );
   }
 }

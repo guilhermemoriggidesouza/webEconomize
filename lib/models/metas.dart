@@ -40,7 +40,7 @@ class MetaModel {
     return Meta(
       idmeta: map['idmeta'], 
       idlogin: map['idlogin'], 
-      valor: map['valor'],
+      valor: map['valor'].toDouble(),
       titulo: map['titulo'],
       texto: map['texto'],
       status: map['status'],

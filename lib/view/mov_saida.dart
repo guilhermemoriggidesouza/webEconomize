@@ -49,22 +49,22 @@ class _MovSaidaState extends State<MovSaida> {
         body: ListView(
           children: <Widget>[
 
-            WidgetListaCard(movSaidaController.listaInfosMovSaidaNaoConcluidas, true, 
-            onTapConfirma:(index){
-              movSaidaController.concluirMovSaida(index);
-            }, 
-            onTapExcluir: (index){
-              movSaidaController.removerMovSaida(index);
-            },  
-            mostrarBotaoConfirma: true),
+            // WidgetListaCard(movSaidaController.listaInfosMovSaidaNaoConcluidas, true, 
+            // onTapConfirma:(index){
+            //   movSaidaController.concluirMovSaida(index);
+            // }, 
+            // onTapExcluir: (index){
+            //   movSaidaController.removerMovSaida(index);
+            // },  
+            // mostrarBotaoConfirma: true),
 
 
-            WidgetListaCard(movSaidaController.listaInfosMovSaidaConcluidas, true, 
-            onTapExcluir: (index){
-              movSaidaController.removerMovSaida(index);
-            },  
-            mostrarBotaoConfirma: false),
-            _buildButtomCadastrar()
+            // WidgetListaCard(movSaidaController.listaInfosMovSaidaConcluidas, true, 
+            // onTapExcluir: (index){
+            //   movSaidaController.removerMovSaida(index);
+            // },  
+            // mostrarBotaoConfirma: false),
+            // _buildButtomCadastrar()
           ],
         )
     );

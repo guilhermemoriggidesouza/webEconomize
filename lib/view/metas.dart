@@ -9,6 +9,7 @@ import 'package:webEconomize/custom/input.dart';
 import 'package:webEconomize/custom/textArea.dart';
 import 'package:webEconomize/custom/widgetListaCard.dart';
 import 'package:webEconomize/custom/button.dart';
+import 'package:webEconomize/domain/Meta.dart';
 
 final _formKey = GlobalKey<FormState>();
 class Metas extends StatefulWidget {
@@ -21,37 +22,64 @@ class _MetasState extends State<Metas> {
   @override
   Widget build(BuildContext context) {
     metasController = Provider.of<MetasController>(context, listen: false);
+    int idlogin = Provider.of<LoginController>(context, listen: false).loginUsuario.idlogin;
+    metasController.consultarMetas(idlogin);
     return Scaffold(
       backgroundColor: Color(0xff1B384A),
-      body: ListView(
-        children: <Widget>[
+      body: Consumer<MetasController>( 
+      builder: (context, metasControllerConsumer, child) {
+        return Column(
+          children: <Widget>[ 
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 30),
+              child: Text(
+                "Metas não Concluidos",
+                style: TextStyle(
+                  fontSize: 24,
+                  color: Colors.white
+                ),
+              )
+            ),
+            
+            _buildListaCard(metasControllerConsumer.listaInfosMetasNaoConcluidas, false),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 30),
+              child: Text(
+                "Metas Concluidos",
+                style: TextStyle(
+                  fontSize: 24,
+                  color: Colors.white
+                ),
+              )
+            ),
+            _buildListaCard(metasControllerConsumer.listaInfosMetasConcluidas, true),
 
-          WidgetListaCard(metasController.listaInfosMetasNaoConcluidas, true, 
-          onTapConfirma:(index){
-            metasController.concluirMeta(index);
-          }, 
-          onTapExcluir: (index){
-            metasController.removerMeta(index);
-          },  
-          mostrarBotaoConfirma: true),
-
-
-          WidgetListaCard(metasController.listaInfosMetasConcluidas, true, 
-          onTapExcluir: (index){
-            metasController.removerMeta(index);
-          },  
-          mostrarBotaoConfirma: false),
-          
-
-          Container(
-            margin: EdgeInsets.fromLTRB(10, 10, 10, 20),            
-            child: ButtonLabel("Cadastrar Metas",(){
-              _buildDialogCadastroMetas();
-            }, color: Color(0xFF008ABE), textColor: Colors.white)
-          ),
-        ],
-      )
+            Container(
+              margin: EdgeInsets.all(10),            
+              child: ButtonLabel("Cadastrar Metas",(){
+                _buildDialogCadastroMetas();
+              }, color: Color(0xFF008ABE), textColor: Colors.white)
+            ),
+          ],
+        );
+      })
     );
+  }
+
+  _buildListaCard(List<Meta> lista, bool mostraBotaoConfirma){
+    if(lista.length > 0 ){
+      return WidgetListaCard(lista, true, 
+        onTapConfirma: (idmeta){
+          metasController.concluirMeta(idmeta);
+        },
+        onTapExcluir: (idmeta){
+          metasController.removerMeta(idmeta);
+        },  
+        mostrarBotaoConfirma: mostraBotaoConfirma
+      );
+    }else{
+      return Container();
+    }
   }
 
   _buildDialogCadastroMetas() {

@@ -19,20 +19,14 @@ class Poupanca extends StatefulWidget {
 
 class _PoupancaState extends State<Poupanca> {
   PoupancaController poupancaController;
-  double dbPoupanca = 2000.00;
-  double dbPoupancaDesteSalario = 2000.00;
 
   @override
   Widget build(BuildContext context) {
     poupancaController = Provider.of<PoupancaController>(context, listen: false);
     int idsalario = Provider.of<SalarioController>(context, listen: false).salario.idsalario;
     int idlogin = Provider.of<LoginController>(context, listen: false).loginUsuario.idlogin;
+    poupancaController.recuperarPoupanca(idsalario, idlogin);
     
-    if(idsalario != null && idlogin !=null) {
-      poupancaController.recuperarPoupanca(idsalario, idlogin);
-    }else{
-      poupancaController.limparPoupanca();
-    }
     return Scaffold(
       backgroundColor: Color(0xff1B384A),
       body: SingleChildScrollView(

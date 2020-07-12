@@ -112,6 +112,18 @@ class ApiOpa {
     }
   }
 
+  static recuperarMetasByLogin(int idlogin) async{
+    try{
+      var urlMetas = 'https://opaapi.herokuapp.com/metas/$idlogin';
+      var response = await http.get(urlMetas, headers: {"Content-Type": "application/json"});
+      
+      return json.decode(response.body);
+
+    }catch(error){
+      return {"msg": "Error, tente novamento mais tarde", "resp": [], "error":error};
+    }
+  }
+
 
   //remover
   static removerSalario(int idSalario) async{
