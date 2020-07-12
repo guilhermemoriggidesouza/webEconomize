@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:webEconomize/controller/PoupancaController.dart';
 import 'package:webEconomize/custom/button.dart';
 import 'package:webEconomize/domain/Meta.dart';
 
-class WidgetListaCard extends StatelessWidget {
-  bool mostrarBotaoConfirma;
+class WidgetListaComButtons extends StatelessWidget {
   bool isMovTela;
   List<Meta> listaInfos = [];
   Function(int) onTapConfirma;
   Function(int) onTapExcluir;
 
-  WidgetListaCard(this.listaInfos, this.isMovTela, {this.onTapConfirma, this.onTapExcluir, this.mostrarBotaoConfirma});
+  WidgetListaComButtons(this.listaInfos, this.isMovTela, {this.onTapConfirma, this.onTapExcluir});
 
   @override
   Widget build(BuildContext context) {
@@ -60,13 +61,13 @@ class WidgetListaCard extends StatelessWidget {
                     mainAxisAlignment:  MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
+                    children: [
                       _buildBotao("Confirmar",  Color(0xFF008ABE), onTapConfirma, listaInfos[index].idmeta),
                       Container(
                         width: 3,
                       ),
                       _buildBotao("Excluir", Color(0xffB73232), onTapExcluir, listaInfos[index].idmeta)
-                    ],
+                    ]
                   ),
                 )
               ],
@@ -75,9 +76,8 @@ class WidgetListaCard extends StatelessWidget {
         );
       }),
     );
-    
   }
-
+  
   _buildValorTelaMovSaida(bool isMovTela, BuildContext context, String valor){
     if(isMovTela){
       return Container(

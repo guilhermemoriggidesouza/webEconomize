@@ -138,12 +138,24 @@ class ApiOpa {
     }
   }
 
+  static removerMeta(int idmeta) async{
+    try{
+      var urlSalario = 'https://opaapi.herokuapp.com/metas/$idmeta';
+      var response = await http.delete(urlSalario, headers: {"Content-Type": "application/json"});
+      
+      return json.decode(response.body);
+
+    }catch(error){
+      return {"msg": "Error, tente novamento mais tarde", "resp": [], "error":error};
+    }
+  }
+
 
 
   //modificar 
   static modificarSalario(double valorModificar, int idsalario) async{
     try{
-      var urlSalario = 'https://opaapi.herokuapp.com/salario/$idsalario';
+      var urlSalario = 'https://opaapi.herokuapp.com/metas/$idsalario';
       var body = json.encode({"valorModificar": valorModificar});
       var response = await http.put(urlSalario, headers: {"Content-Type": "application/json"}, body: body);
       
@@ -159,6 +171,18 @@ class ApiOpa {
       var urlPoupanca = 'https://opaapi.herokuapp.com/poupanca/$idsalario';
       var body = json.encode({"valorModificar": valorModificar});
       var response = await http.put(urlPoupanca, headers: {"Content-Type": "application/json"}, body: body);
+      
+      return json.decode(response.body);
+
+    }catch(error){
+      return {"msg": "Error, tente novamento mais tarde", "resp": [], "error":error};
+    }   
+  }
+
+  static concluirMeta(int idmeta) async{
+    try{
+      var urlMeta = 'https://opaapi.herokuapp.com/metas/$idmeta';
+      var response = await http.put(urlMeta, headers: {"Content-Type": "application/json"});
       
       return json.decode(response.body);
 

@@ -9,12 +9,16 @@ class MetasController with ChangeNotifier{
   List<Meta> listaMetas =[];
   MetaModel metaCadastrar = MetaModel();
 
-  concluirMeta(int index){
-    print(index);
+  Future<String> concluirMeta(int idmeta, int idlogin) async{
+    dynamic response = await ApiOpa.concluirMeta(idmeta);
+    consultarMetas(idlogin);
+    return response['msg'];
   }
 
-  removerMeta(int index){
-    print(index);
+    Future<String> removerMeta(int idmeta, int idlogin) async{
+    dynamic response = await ApiOpa.removerMeta(idmeta);
+    consultarMetas(idlogin);
+    return response['msg'];
   }
 
   Future<String> cadastrarMetas() async{

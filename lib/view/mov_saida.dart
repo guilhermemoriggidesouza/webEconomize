@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/widgets.dart';
 import 'package:webEconomize/custom/textArea.dart';
-import 'package:webEconomize/custom/widgetListaCard.dart';
+import 'package:webEconomize/custom/widgetListaComButtons.dart';
 import 'package:webEconomize/custom/button.dart';
 import 'package:webEconomize/custom/input.dart';
 import 'package:webEconomize/custom/dialog.dart';

@@ -7,8 +7,9 @@ import 'package:webEconomize/controller/MetasController.dart';
 import 'package:webEconomize/custom/dialog.dart';
 import 'package:webEconomize/custom/input.dart';
 import 'package:webEconomize/custom/textArea.dart';
-import 'package:webEconomize/custom/widgetListaCard.dart';
+import 'package:webEconomize/custom/widgetListaComButtons.dart';
 import 'package:webEconomize/custom/button.dart';
+import 'package:webEconomize/custom/widgetListaSemButtons.dart';
 import 'package:webEconomize/domain/Meta.dart';
 
 final _formKey = GlobalKey<FormState>();
@@ -26,56 +27,86 @@ class _MetasState extends State<Metas> {
     metasController.consultarMetas(idlogin);
     return Scaffold(
       backgroundColor: Color(0xff1B384A),
-      body: Consumer<MetasController>( 
-      builder: (context, metasControllerConsumer, child) {
-        return Column(
-          children: <Widget>[ 
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 30),
-              child: Text(
-                "Metas não Concluidos",
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.white
-                ),
-              )
-            ),
-            
-            _buildListaCard(metasControllerConsumer.listaInfosMetasNaoConcluidas, false),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 30),
-              child: Text(
-                "Metas Concluidos",
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.white
-                ),
-              )
-            ),
-            _buildListaCard(metasControllerConsumer.listaInfosMetasConcluidas, true),
+      body: SingleChildScrollView(
+        child: Consumer<MetasController>( 
+        builder: (context, metasControllerConsumer, child) {
+          return Column(
+            children: <Widget>[ 
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 30),
+                child: Text(
+                  "Metas não Concluidos",
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.white
+                  ),
+                )
+              ),
 
-            Container(
-              margin: EdgeInsets.all(10),            
-              child: ButtonLabel("Cadastrar Metas",(){
-                _buildDialogCadastroMetas();
-              }, color: Color(0xFF008ABE), textColor: Colors.white)
-            ),
-          ],
-        );
-      })
+              _buildListaCardBotoes(metasControllerConsumer.listaInfosMetasNaoConcluidas),
+              
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 30),
+                child: Text(
+                  "Metas Concluidos",
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.white
+                  ),
+                )
+              ),
+
+              _buildListaCardSemBotes(metasControllerConsumer.listaInfosMetasConcluidas),
+
+              Container(
+                margin: EdgeInsets.all(10),            
+                child: ButtonLabel("Cadastrar Metas",(){
+                  _buildDialogCadastroMetas();
+                }, color: Color(0xFF008ABE), textColor: Colors.white)
+              ),
+            ],
+          );
+        }),
+      )
     );
   }
+  _buildListaCardSemBotes(List<Meta> lista){
+    if(lista.length >0){
+      return WidgetListaSemButtons(lista, true);
+    }else{
+      return Container();
+    }
+  }
 
-  _buildListaCard(List<Meta> lista, bool mostraBotaoConfirma){
-    if(lista.length > 0 ){
-      return WidgetListaCard(lista, true, 
-        onTapConfirma: (idmeta){
-          metasController.concluirMeta(idmeta);
+  _buildListaCardBotoes(List<Meta> lista){
+    if(lista.length > 0){
+      return WidgetListaComButtons(lista, true, 
+        onTapConfirma: (idmeta) async{
+          showLoaderDialog(context);
+          String respostaConcluirMeta = await metasController.concluirMeta(idmeta, Provider.of<LoginController>(context, listen: false).loginUsuario.idlogin);
+          Navigator.pop(context);
+
+          Flushbar(
+            title: "Conclusão de Meta",
+            backgroundColor: Colors.black,
+            message: respostaConcluirMeta,
+            duration: Duration(seconds: 2),
+          )..show(context);
         },
-        onTapExcluir: (idmeta){
-          metasController.removerMeta(idmeta);
+
+        onTapExcluir: (idmeta) async{
+          showLoaderDialog(context);
+          String respostaRemoverMeta = await metasController.removerMeta(idmeta, Provider.of<LoginController>(context, listen: false).loginUsuario.idlogin);
+          Navigator.pop(context);
+
+          Flushbar(
+            title: "Remoção de Meta",
+            backgroundColor: Colors.black,
+            message: respostaRemoverMeta,
+            duration: Duration(seconds: 2),
+          )..show(context);
         },  
-        mostrarBotaoConfirma: mostraBotaoConfirma
+        
       );
     }else{
       return Container();
