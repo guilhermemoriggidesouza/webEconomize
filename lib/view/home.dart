@@ -152,10 +152,12 @@ class _HomeState extends State<Home> {
   _buildExpandableList(context){
     return Consumer<SalarioController>(
       builder: (context, salarioController, child) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
+        return Container(
+          color: Color(0xff018ac0),
+          margin: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+          padding: const EdgeInsets.all(2.0),
           child: ExpansionTile(
-            backgroundColor: Color(0xff205370),
+            backgroundColor: Color(0xff018ac0),
             title: Text(
               "Gastos",
               style: TextStyle(   
