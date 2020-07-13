@@ -7,7 +7,6 @@ class Meta implements IMovimento{
   String titulo;
   String texto;
   String status;
-  @override
   int idmovimento;
 
   Meta({

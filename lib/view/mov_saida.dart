@@ -24,51 +24,55 @@ class _MovSaidasState extends State<MovSaidas> {
   @override
   Widget build(BuildContext context) {
       movSaidaController = Provider.of<MovSaidaController>(context, listen: false);
+      int idsalario = Provider.of<SalarioController>(context, listen:false).salario.idsalario;
+      if(idsalario != null){
+        movSaidaController.consultarMovSaida(idsalario);
+      }else{
+        movSaidaController.limparMovSaida();
+      }
       return Scaffold(
         backgroundColor: Color(0xff1B384A),
-              body: SingleChildScrollView(
-        child: Consumer<MovSaidaController>( 
-        builder: (context, movSaidaControllerConsumer, child) {
-          return Column(
-            children: <Widget>[ 
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 30),
-                child: Text(
-                  "Mov não Concluidas",
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.white
-                  ),
-                )
-              ),
+        body: SingleChildScrollView(
+          child: Consumer<MovSaidaController>( 
+          builder: (context, movSaidaControllerConsumer, child) {
+            return Column(
+              children: <Widget>[ 
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 30),
+                  child: Text(
+                    "Mov não Concluidas",
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: Colors.white
+                    ),
+                  )
+                ),
 
-              _buildListaCardBotoes(movSaidaControllerConsumer.listaInfosMovSaidaNaoConcluidas),
-              
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 30),
-                child: Text(
-                  "Mov Concluidas",
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.white
-                  ),
-                )
-              ),
+                _buildListaCardBotoes(movSaidaControllerConsumer.listaInfosMovSaidaNaoConcluidas),
+                
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 30),
+                  child: Text(
+                    "Mov Concluidas",
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: Colors.white
+                    ),
+                  )
+                ),
 
-              _buildListaCardSemBotes(movSaidaControllerConsumer.listaInfosMovSaidaConcluidas),
+                _buildListaCardSemBotes(movSaidaControllerConsumer.listaInfosMovSaidaConcluidas),
 
-              Container(
-                margin: EdgeInsets.all(10),            
-                child: _buildButtomCadastrar()
-              ),
-            ],
-          );
-        }),
-    )
-   );
-  
+                Container(
+                  margin: EdgeInsets.all(10),            
+                  child: _buildButtomCadastrar()
+                ),
+              ],
+            );
+          }),
+      )
+    );
   }
-    }
   _buildListaCardSemBotes(List<MovSaida> lista){
     if(lista.length >0){
       return WidgetListaSemButtons(lista, false);
@@ -95,7 +99,7 @@ class _MovSaidasState extends State<MovSaidas> {
 
         onTapExcluir: (idmovSaida) async{
           showLoaderDialog(context);
-          String respostaRemoverMovSaida = await movSaidaController.removerMovSaida(idmovSaida, Provider.of<SalarioController>(context, listen: false).salario.idsalario
+          String respostaRemoverMovSaida = await movSaidaController.removerMovSaida(idmovSaida, Provider.of<SalarioController>(context, listen: false).salario.idsalario);
           Navigator.pop(context);
 
           Flushbar(

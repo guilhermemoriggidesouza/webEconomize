@@ -3,10 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:webEconomize/controller/PoupancaController.dart';
 import 'package:webEconomize/custom/button.dart';
 import 'package:webEconomize/domain/Meta.dart';
+import 'package:webEconomize/domain/interfacesCategorias/Imovimento.dart';
 
 class WidgetListaSemButtons extends StatelessWidget {
   bool isMovTela;
-  List<Meta> listaInfos = [];
+  List<IMovimento> listaInfos = [];
 
   WidgetListaSemButtons(this.listaInfos, this.isMovTela);
 

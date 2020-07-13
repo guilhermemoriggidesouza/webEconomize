@@ -7,7 +7,6 @@ class MovSaida implements IMovimento{
   String titulo;
   String texto;
   String status;
-  @override
   int idmovimento;
  
 
