@@ -9,65 +9,107 @@ import 'package:webEconomize/custom/dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:webEconomize/controller/MovSaidaController.dart';
 import 'package:webEconomize/controller/SalarioController.dart';
+import 'package:webEconomize/custom/widgetListaSemButtons.dart';
+import 'package:webEconomize/domain/MovSaida.dart';
 
 final _formKeyModal = GlobalKey<FormState>();
 
-class MovSaida extends StatefulWidget {
+class MovSaidas extends StatefulWidget {
   @override
-  _MovSaidaState createState() => _MovSaidaState();
+  _MovSaidasState createState() => _MovSaidasState();
 }
 
-class _MovSaidaState extends State<MovSaida> {
-    MovSaidaController movSaidaController; 
-
-  final List<String> mensagemNaoConcluida = [
-    "é simplesmente um texto fictício da indústria tipográfica e de impressão." +
-    "Lorem Ipsum é o texto fictício padrão do setor desde os anos 1500",
-    "é simplesmente um texto fictício da indústria tipográfica e de impressão." +
-    "Lorem Ipsum é o texto fictício padrão do setor desde os anos 1500",
-    "é simplesmente um texto fictício da indústria tipográfica e de impressão." +
-    "Lorem Ipsum é o texto fictício padrão do setor desde os anos 1500",
-    "é simplesmente um texto fictício da indústria tipográfica e de impressão." +
-    "Lorem Ipsum é o texto fictício padrão do setor desde os anos 1500",
-  ];
- final List<String> mensagemConcluida = [
-    "é simplesmente um texto fictício da indústria tipográfica e de impressão." +
-    "Lorem Ipsum é o texto fictício padrão do setor desde os anos 1500",
-    "é simplesmente um texto fictício da indústria tipográfica e de impressão." +
-    "Lorem Ipsum é o texto fictício padrão do setor desde os anos 1500",
-    "é simplesmente um texto fictício da indústria tipográfica e de impressão." +
-    "Lorem Ipsum é o texto fictício padrão do setor desde os anos 1500",
-    "é simplesmente um texto fictício da indústria tipográfica e de impressão." +
-    "Lorem Ipsum é o texto fictício padrão do setor desde os anos 1500",
-  ];
-
+class _MovSaidasState extends State<MovSaidas> {
+  MovSaidaController movSaidaController; 
   @override
   Widget build(BuildContext context) {
       movSaidaController = Provider.of<MovSaidaController>(context, listen: false);
       return Scaffold(
         backgroundColor: Color(0xff1B384A),
-        body: ListView(
-          children: <Widget>[
+              body: SingleChildScrollView(
+        child: Consumer<MovSaidaController>( 
+        builder: (context, movSaidaControllerConsumer, child) {
+          return Column(
+            children: <Widget>[ 
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 30),
+                child: Text(
+                  "Mov não Concluidas",
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.white
+                  ),
+                )
+              ),
 
-            // WidgetListaCard(movSaidaController.listaInfosMovSaidaNaoConcluidas, true, 
-            // onTapConfirma:(index){
-            //   movSaidaController.concluirMovSaida(index);
-            // }, 
-            // onTapExcluir: (index){
-            //   movSaidaController.removerMovSaida(index);
-            // },  
-            // mostrarBotaoConfirma: true),
+              _buildListaCardBotoes(movSaidaControllerConsumer.listaInfosMovSaidaNaoConcluidas),
+              
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 30),
+                child: Text(
+                  "Mov Concluidas",
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.white
+                  ),
+                )
+              ),
 
+              _buildListaCardSemBotes(movSaidaControllerConsumer.listaInfosMovSaidaConcluidas),
 
-            // WidgetListaCard(movSaidaController.listaInfosMovSaidaConcluidas, true, 
-            // onTapExcluir: (index){
-            //   movSaidaController.removerMovSaida(index);
-            // },  
-            // mostrarBotaoConfirma: false),
-            // _buildButtomCadastrar()
-          ],
-        )
-    );
+              Container(
+                margin: EdgeInsets.all(10),            
+                child: _buildButtomCadastrar()
+              ),
+            ],
+          );
+        }),
+    )
+   );
+  
+  }
+    }
+  _buildListaCardSemBotes(List<MovSaida> lista){
+    if(lista.length >0){
+      return WidgetListaSemButtons(lista, false);
+    }else{
+      return Container();
+    }
+  }
+
+  _buildListaCardBotoes(List<MovSaida> lista){
+    if(lista.length > 0){
+      return WidgetListaComButtons(lista, false, 
+        onTapConfirma: (idmovSaida) async{
+          showLoaderDialog(context);
+          String respostaConcluirMovSaida = await movSaidaController.concluirMovSaida(idmovSaida, Provider.of<SalarioController>(context, listen: false).salario.idsalario);
+          Navigator.pop(context);
+
+          Flushbar(
+            title: "Conclusão de Mov",
+            backgroundColor: Colors.black,
+            message: respostaConcluirMovSaida,
+            duration: Duration(seconds: 2),
+          )..show(context);
+        },
+
+        onTapExcluir: (idmovSaida) async{
+          showLoaderDialog(context);
+          String respostaRemoverMovSaida = await movSaidaController.removerMovSaida(idmovSaida, Provider.of<SalarioController>(context, listen: false).salario.idsalario
+          Navigator.pop(context);
+
+          Flushbar(
+            title: "Remoção de Mov",
+            backgroundColor: Colors.black,
+            message: respostaRemoverMovSaida,
+            duration: Duration(seconds: 2),
+          )..show(context);
+        },  
+        
+      );
+    }else{
+      return Container();
+    }
   }
 
   _buildButtomCadastrar() {

@@ -1,10 +1,14 @@
-class Meta{
+import 'package:webEconomize/domain/interfacesCategorias/Imovimento.dart';
+
+class Meta implements IMovimento{
   int idmeta;
   int idlogin;
   double valor;
   String titulo;
   String texto;
   String status;
+  @override
+  int idmovimento;
 
   Meta({
     this.idmeta,
@@ -13,6 +17,9 @@ class Meta{
     this.titulo,
     this.texto,
     this.status
-  });
+  }){
+    idmovimento = idmeta;
+  }
+
 
 }

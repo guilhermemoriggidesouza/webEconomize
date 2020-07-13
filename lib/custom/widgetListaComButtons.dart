@@ -3,10 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:webEconomize/controller/PoupancaController.dart';
 import 'package:webEconomize/custom/button.dart';
 import 'package:webEconomize/domain/Meta.dart';
+import 'package:webEconomize/domain/interfacesCategorias/Imovimento.dart';
 
 class WidgetListaComButtons extends StatelessWidget {
   bool isMovTela;
-  List<Meta> listaInfos = [];
+  List<IMovimento> listaInfos = [];
   Function(int) onTapConfirma;
   Function(int) onTapExcluir;
 
@@ -62,11 +63,11 @@ class WidgetListaComButtons extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      _buildBotao("Confirmar",  Color(0xFF008ABE), onTapConfirma, listaInfos[index].idmeta),
+                      _buildBotao("Confirmar",  Color(0xFF008ABE), onTapConfirma, listaInfos[index]),
                       Container(
                         width: 3,
                       ),
-                      _buildBotao("Excluir", Color(0xffB73232), onTapExcluir, listaInfos[index].idmeta)
+                      _buildBotao("Excluir", Color(0xffB73232), onTapExcluir, listaInfos[index])
                     ]
                   ),
                 )
@@ -106,12 +107,12 @@ class WidgetListaComButtons extends StatelessWidget {
     }
   }
 
-  _buildBotao(String text, Color color, Function(int) onTapFunction, int index){
+  _buildBotao(String text, Color color, Function(int) onTapFunction, IMovimento movimento){
     return Expanded(
       child: ButtonLabel(
         text,
         (){
-          onTapFunction(index);
+          onTapFunction(movimento.idmovimento);
         },
         height: 48, 
         color: color, 

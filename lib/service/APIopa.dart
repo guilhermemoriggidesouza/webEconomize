@@ -124,6 +124,18 @@ class ApiOpa {
     }
   }
 
+  static recuperarMovSaida(int idsalario) async{
+  try{
+    var urlMovSaida = 'https://opaapi.herokuapp.com/movSaida/$idsalario';
+    var response = await http.get(urlMovSaida, headers: {"Content-Type": "application/json"});
+    return json.decode(response.body);
+
+  }catch(error){
+    return {"msg": "Error, tente novamento mais tarde", "resp": [], "error":error};
+  }
+}
+
+
 
   //remover
   static removerSalario(int idSalario) async{
@@ -149,6 +161,18 @@ class ApiOpa {
       return {"msg": "Error, tente novamento mais tarde", "resp": [], "error":error};
     }
   }
+
+  static removerMovSaida(int idmovSaida) async{
+  try{
+    var urlSalario = 'https://opaapi.herokuapp.com/movSaida/$idmovSaida';
+    var response = await http.delete(urlSalario, headers: {"Content-Type": "application/json"});
+    
+    return json.decode(response.body);
+
+  }catch(error){
+    return {"msg": "Error, tente novamento mais tarde", "resp": [], "error":error};
+  }
+}
 
 
 

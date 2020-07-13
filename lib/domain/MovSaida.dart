@@ -1,10 +1,14 @@
-class MovSaida{
+import 'package:webEconomize/domain/interfacesCategorias/Imovimento.dart';
+
+class MovSaida implements IMovimento{
   int idmov_saida;
   int idsalario;
   double valor;
   String titulo;
   String texto;
   String status;
+  @override
+  int idmovimento;
  
 
   MovSaida({
@@ -14,6 +18,7 @@ class MovSaida{
     this.titulo,
     this.texto,
     this.status
-  });
-
+  }){
+    idmovimento = idmov_saida;
+  }
 }

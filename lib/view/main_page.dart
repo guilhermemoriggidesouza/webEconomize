@@ -22,7 +22,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   static List<Widget> _widgetOptions = <Widget>[
     Home(),
-    MovSaida(),
+    MovSaidas(),
     Salario(),
     Metas(),
     Poupanca(),
