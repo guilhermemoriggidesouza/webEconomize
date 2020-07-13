@@ -3,12 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:webEconomize/controller/LoginController.dart';
-import 'package:webEconomize/controller/PoupancaController.dart';
 import 'package:webEconomize/controller/SalarioController.dart';
-import 'package:webEconomize/custom/button.dart';
-import 'package:webEconomize/custom/porco.dart';
-import 'package:webEconomize/custom/poupanca.dart';
-import 'package:webEconomize/domain/salario_detalhe.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -18,7 +13,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final ScrollController _scrollController = ScrollController();
 
-  double salarioAtual = 32.90;
   String nomeDoUsuario = "André Nunes";
 
   @override
@@ -49,26 +43,7 @@ class _HomeState extends State<Home> {
             Container(
               alignment: Alignment.center,        
               width: MediaQuery.of(context).size.width / 1,
-              child: Wrap(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Icon(
-                        Icons.monetization_on,
-                        size: 20,
-                        color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    "${salarioAtual}",
-                    style: TextStyle(fontSize: 25, color: Colors.white),
-                  ),
-                  Text(
-                    "/100",
-                     style: TextStyle(fontSize: 15, color: Colors.white),                 
-                  ),
-                ],
-              ),
+              child: _buildSalario()
             ),
             SizedBox(
               height: 35,
@@ -90,7 +65,7 @@ class _HomeState extends State<Home> {
                   Container(
                     width: MediaQuery.of(context).size.width / 1,
                     child: Text(
-                      "${nomeDoUsuario}",
+                      "${Provider.of<LoginController>(context, listen: false).loginUsuario.nome}",
                        style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w400),
                        textAlign: TextAlign.center,
                     ),
@@ -149,6 +124,34 @@ class _HomeState extends State<Home> {
       ],
     );
   }
+
+  _buildSalario(){
+    if( Provider.of<SalarioController>(context, listen: false,).salario.idsalario == null){
+      return Text("Nenhum salário selecionado", style: TextStyle(fontSize: 25, color: Colors.white),);
+    } else {
+      return Wrap(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Icon(
+                Icons.monetization_on,
+                size: 20,
+                color: Colors.white,
+            ),
+          ),
+          Text(
+            "${Provider.of<SalarioController>(context, listen: false,).salario.salarioResto}",
+            style: TextStyle(fontSize: 25, color: Colors.white),
+          ),
+          Text(
+            "/${Provider.of<SalarioController>(context, listen: false,).salario.salarioFixo}",
+              style: TextStyle(fontSize: 15, color: Colors.white),                 
+          ),
+        ],
+      );
+    }
+  }
+
   _buildExpandableList(context){
     return Consumer<SalarioController>(
       builder: (context, salarioController, child) {
