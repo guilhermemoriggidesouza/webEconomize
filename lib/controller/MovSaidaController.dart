@@ -8,9 +8,13 @@ class MovSaidaController with ChangeNotifier{
   List<MovSaida> listaInfosMovSaidaConcluidas = [];
   List<MovSaida> listaMovSaida =[];
   MovSaidaModel movSaidaCadastrar = MovSaidaModel();
+  double valorMovSaidaConcluir = 0.0;
 
-  concluirMovSaida(int index, idlogin){
-    print(index);
+  Future<String> concluirMovSaida(int idmovSaida, int idsalario) async{
+    dynamic response = await ApiOpa.concluirMovSaida(idmovSaida, valorMovSaidaConcluir);
+    consultarMovSaida(idsalario);
+    valorMovSaidaConcluir = 0.0;
+    return response['msg'];
   }
 
   Future<String> removerMovSaida(int idmovSaida, int idsalario) async{
@@ -33,7 +37,7 @@ class MovSaidaController with ChangeNotifier{
     return response['msg'];
   }
 
-   consultarMovSaida(int idsalario) async{
+  consultarMovSaida(int idsalario) async{
     dynamic responseMovSaidaBySalario = await ApiOpa.recuperarMovSaida(idsalario);
     listaMovSaida = [];
     listaInfosMovSaidaNaoConcluidas = [];

@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:webEconomize/domain/Salario.dart';
 import 'package:webEconomize/domain/salario_detalhe.dart';
 import 'package:webEconomize/models/salario.dart';
+import 'package:webEconomize/models/salario_descricao.dart';
 import 'package:webEconomize/service/APIopa.dart';
 
 class SalarioController with ChangeNotifier{
@@ -11,12 +12,6 @@ class SalarioController with ChangeNotifier{
   List<Salario> listaSalarios = List<Salario>();
   double valorModificarMais = 0.0;
   double valorModificarMenos = 0.0;
-
-  SalarioController(){
-    this.listaSalarioDetalhe.add(SalarioDetalhe(1, "Movimentação de objetivo", 400.0, 1));
-    this.listaSalarioDetalhe.add(SalarioDetalhe(2, "uma descricao ae", 200.0, 2));
-    notifyListeners();
-  }
 
   Future<String> modificarSalarioMais() async{
     dynamic response = await ApiOpa.modificarSalario(valorModificarMais, salario.idsalario);
@@ -77,7 +72,17 @@ class SalarioController with ChangeNotifier{
       });
     }
     notifyListeners();
-    return retorno['msg'];
+  }
+
+  recuperarSalarioDescricao(int idsalario) async{
+    dynamic retorno = await ApiOpa.recuperarSalarioDetalhe(idsalario);
+    listaSalarioDetalhe = [];
+    if(retorno['resp'].length > 0 && retorno['resp'] != null){
+      retorno['resp'].forEach((element) {
+        listaSalarioDetalhe.add(SalarioDetalheModel.fromMaptoDomain(element));
+      });
+    }
+    notifyListeners();
   }
 
 }

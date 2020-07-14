@@ -41,7 +41,7 @@ class MovSaidaModel{
     return MovSaida(
       idmov_saida: map['idmov_saida'], 
       idsalario: map['idsalario'], 
-      valor: map['valor'],
+      valor: map['valor'].toDouble(),
       titulo: map['titulo'],
       texto: map['texto'],
       status: map['status'],

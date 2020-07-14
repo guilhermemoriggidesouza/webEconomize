@@ -12,7 +12,8 @@ import 'package:webEconomize/controller/SalarioController.dart';
 import 'package:webEconomize/custom/widgetListaSemButtons.dart';
 import 'package:webEconomize/domain/MovSaida.dart';
 
-final _formKeyModal = GlobalKey<FormState>();
+final _formKeyModalCadastro = GlobalKey<FormState>();
+final _formKeyModalConcluir = GlobalKey<FormState>();
 
 class MovSaidas extends StatefulWidget {
   @override
@@ -75,7 +76,7 @@ class _MovSaidasState extends State<MovSaidas> {
   }
   _buildListaCardSemBotes(List<MovSaida> lista){
     if(lista.length >0){
-      return WidgetListaSemButtons(lista, false);
+      return WidgetListaSemButtons(lista, true);
     }else{
       return Container();
     }
@@ -85,16 +86,7 @@ class _MovSaidasState extends State<MovSaidas> {
     if(lista.length > 0){
       return WidgetListaComButtons(lista, false, 
         onTapConfirma: (idmovSaida) async{
-          showLoaderDialog(context);
-          String respostaConcluirMovSaida = await movSaidaController.concluirMovSaida(idmovSaida, Provider.of<SalarioController>(context, listen: false).salario.idsalario);
-          Navigator.pop(context);
-
-          Flushbar(
-            title: "Conclusão de Mov",
-            backgroundColor: Colors.black,
-            message: respostaConcluirMovSaida,
-            duration: Duration(seconds: 2),
-          )..show(context);
+          _buildConcluirMovSaidaDialog(idmovSaida);
         },
 
         onTapExcluir: (idmovSaida) async{
@@ -116,6 +108,45 @@ class _MovSaidasState extends State<MovSaidas> {
     }
   }
 
+  _buildConcluirMovSaidaDialog(int idmovSaida){
+    Dialog dialogo = DialogCustom("Concluir MovSaida", _buildCorpoDialogConcluir(idmovSaida));
+    showDialog(context: context, builder: (BuildContext context) => dialogo);
+    return dialogo;
+  }
+
+  _buildCorpoDialogConcluir(int idmovSaida){
+    return Container(
+      child: Form(
+        key: _formKeyModalConcluir,
+        child: Column(
+          children: <Widget>[
+            InputLabel("Valor", (value){
+              movSaidaController.valorMovSaidaConcluir = double.parse(value == "" ? "0.0" : value);
+            }),
+            ButtonLabel(
+              "Concluir Meta",
+              () async{
+                _formKeyModalConcluir.currentState.save();
+                showLoaderDialog(context);
+                String respostaConcluirMovSaida = await movSaidaController.concluirMovSaida(idmovSaida, Provider.of<SalarioController>(context, listen: false).salario.idsalario);
+                Navigator.pop(context);
+
+                Flushbar(
+                  title: "Conclusão de Mov",
+                  backgroundColor: Colors.black,
+                  message: respostaConcluirMovSaida,
+                  duration: Duration(seconds: 2),
+                )..show(context);
+              },
+              color: Color(0xFF1B8F42),
+              textColor: Colors.white,
+            )
+          ],
+        ),
+      )
+    );
+  }
+
   _buildButtomCadastrar() {
     if(Provider.of<SalarioController>(context).listaSalarios.length !=0 && 
     Provider.of<SalarioController>(context).salario.idsalario == Provider.of<SalarioController>(context).listaSalarios.last.idsalario){
@@ -123,7 +154,7 @@ class _MovSaidasState extends State<MovSaidas> {
         margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
         child:ButtonLabel(
           "Cadastrar Movimento de Saída", 
-          (){_buildMovSaida();}, 
+          (){_buildMovSaidaCadastroDialog();}, 
           color: Color(0xFF008ABE), 
           textColor: Colors.white
         )
@@ -133,16 +164,16 @@ class _MovSaidasState extends State<MovSaidas> {
     }
 
   }
-  _buildMovSaida(){
-    Dialog dialogo = DialogCustom("Cadastro de Movimento", _buildCorpoDialog());
-                showDialog(context: context, builder: (BuildContext context) => dialogo);
+  _buildMovSaidaCadastroDialog(){
+    Dialog dialogo = DialogCustom("Cadastro de Movimento", _buildCorpoDialogCadastrar());
+    showDialog(context: context, builder: (BuildContext context) => dialogo);
     return dialogo;
   }
 
-  Container _buildCorpoDialog(){
+  Container _buildCorpoDialogCadastrar(){
       return Container(
         child:Form(
-          key: _formKeyModal,
+          key: _formKeyModalCadastro,
           child: Column(
             children: <Widget>[
               Container(
@@ -159,7 +190,7 @@ class _MovSaidasState extends State<MovSaidas> {
               ),
               ButtonLabel(
                 "Cadastrar Movimento de Saída", ()async {
-                   _formKeyModal.currentState.save();
+                   _formKeyModalCadastro.currentState.save();
                   movSaidaController.movSaidaCadastrar.idsalario = Provider.of<SalarioController>(context, listen: false).salario.idsalario;
                   showLoaderDialog(context);
                   String respostaCadastroMovSaida = await movSaidaController.cadastrarMovSaida();
@@ -189,7 +220,7 @@ class _MovSaidasState extends State<MovSaidas> {
       return Container(
         child: SingleChildScrollView(
           child:Form(
-            key: _formKeyModal,
+            key: _formKeyModalCadastro,
             child: Column(
               children: <Widget>[
                 InputLabel("Valor do Movimento", (value){ }),

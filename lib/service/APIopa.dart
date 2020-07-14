@@ -124,16 +124,28 @@ class ApiOpa {
     }
   }
 
-  static recuperarMovSaida(int idsalario) async{
-  try{
-    var urlMovSaida = 'https://opaapi.herokuapp.com/movSaida/$idsalario';
-    var response = await http.get(urlMovSaida, headers: {"Content-Type": "application/json"});
-    return json.decode(response.body);
+  static recuperarMovSaida(int idMovSaida) async{
+    try{
+      var urlMovSaida = 'https://opaapi.herokuapp.com/movSaida/$idMovSaida';
+      var response = await http.get(urlMovSaida, headers: {"Content-Type": "application/json"});
+      return json.decode(response.body);
 
-  }catch(error){
-    return {"msg": "Error, tente novamento mais tarde", "resp": [], "error":error};
+    }catch(error){
+      return {"msg": "Error, tente novamento mais tarde", "resp": [], "error":error};
+    }
   }
-}
+
+  static recuperarSalarioDetalhe(int idsalario) async{
+    try{
+      var urlSalario = 'https://opaapi.herokuapp.com/salarioDescricao/$idsalario';
+      var response = await http.get(urlSalario, headers: {"Content-Type": "application/json"});
+
+      return json.decode(response.body);
+
+    }catch(error){
+      return {"msg": "Error, tente novamento mais tarde", "resp": [], "error":error};
+    }
+  }
 
 
 
@@ -207,6 +219,19 @@ class ApiOpa {
     try{
       var urlMeta = 'https://opaapi.herokuapp.com/metas/$idmeta';
       var response = await http.put(urlMeta, headers: {"Content-Type": "application/json"});
+      
+      return json.decode(response.body);
+
+    }catch(error){
+      return {"msg": "Error, tente novamento mais tarde", "resp": [], "error":error};
+    }   
+  }
+
+  static concluirMovSaida(int idmovSaida, double valorMovSaidaConcluir) async{
+    try{
+      var urlMovSaida = 'https://opaapi.herokuapp.com/movSaida/$idmovSaida';
+      var body = json.encode({"valorModificar": valorMovSaidaConcluir});
+      var response = await http.put(urlMovSaida, headers: {"Content-Type": "application/json"}, body:body);
       
       return json.decode(response.body);
 

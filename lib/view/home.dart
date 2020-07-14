@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:webEconomize/controller/LoginController.dart';
+import 'package:webEconomize/controller/PoupancaController.dart';
 import 'package:webEconomize/controller/SalarioController.dart';
 
 class Home extends StatefulWidget {
@@ -12,11 +13,20 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final ScrollController _scrollController = ScrollController();
-
-  String nomeDoUsuario = "André Nunes";
+  PoupancaController poupancaController;
+  int idlogin;
+  int idSalario;
 
   @override
   Widget build(BuildContext context) {
+    idlogin = Provider.of<LoginController>(context, listen: false).loginUsuario.idlogin;
+    idSalario = Provider.of<SalarioController>(context, listen: false).salario.idsalario;
+
+    Provider.of<PoupancaController>(context, listen: false).recuperarPoupancaByLogin(idlogin);
+
+    if(idSalario != null){
+      Provider.of<SalarioController>(context, listen: false).recuperarSalarioDescricao(idSalario);
+    }
     return Scaffold(
       backgroundColor: Color(0xff1B384A),
       body: _buildBody(),
@@ -107,7 +117,7 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                         Text(
-                          "2000,00", 
+                          Provider.of<PoupancaController>(context, listen: false).poupancaGeral.toString(), 
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,
@@ -155,53 +165,77 @@ class _HomeState extends State<Home> {
   _buildExpandableList(context){
     return Consumer<SalarioController>(
       builder: (context, salarioController, child) {
-        return Container(
-          color: Color(0xff018ac0),
-          margin: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-          padding: const EdgeInsets.all(2.0),
-          child: ExpansionTile(
-            backgroundColor: Color(0xff018ac0),
-            title: Text(
-              "Gastos",
-              style: TextStyle(   
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold
-              ),
-            ),
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 5.0, bottom: 2.0, left: 2.0, right: 2.0),
-                child: Container(
-                  color: Color(0xff141F27),
-                  child: ListView.separated(
-                    controller: _scrollController,
-                    shrinkWrap: true,
-                    itemCount: salarioController.listaSalarioDetalhe.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: _buildPaddingList(index),
-                        child: Container(
-                          child: Center(
-                            child: Text(
-                              salarioController.listaSalarioDetalhe[index].descricao,
-                              style: TextStyle(   
-                                color: Colors.white,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold
-                              ),
-                            )
-                          ),
-                        ),
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) => const Divider(color: Color(0xff205370),),
-                  )
+        if(salarioController.listaSalarioDetalhe.length > 0){
+          return Container(
+            color: Color(0xff018ac0),
+            margin: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+            padding: const EdgeInsets.all(2.0),
+            child: ExpansionTile(
+              backgroundColor: Color(0xff018ac0),
+              title: Text(
+                "Gastos",
+                style: TextStyle(   
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold
                 ),
-              )
-            ],
-          ),
-        );
+              ),
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(top: 5.0, bottom: 2.0, left: 2.0, right: 2.0),
+                  child: Container(
+                    color: Color(0xff141F27),
+                    child: ListView.separated(
+                      controller: _scrollController,
+                      shrinkWrap: true,
+                      itemCount: salarioController.listaSalarioDetalhe.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: _buildPaddingList(index),
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 20),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                Text(
+                                  "${salarioController.listaSalarioDetalhe[index].valor}",
+                                  style: TextStyle(   
+                                    color: Colors.white,
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                                Container(
+                                  width: 40,
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    salarioController.listaSalarioDetalhe[index].descricao,
+                                    style: TextStyle(   
+                                      color: Colors.white,
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold
+                                    ),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                )
+                              ]
+                            ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) => const Divider(color: Color(0xff205370),),
+                    )
+                  ),
+                )
+              ],
+            ),
+          );
+        }else{
+          return Container();
+        }
       }
     ); 
   }

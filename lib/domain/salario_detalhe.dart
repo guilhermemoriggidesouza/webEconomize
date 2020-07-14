@@ -4,11 +4,11 @@ class SalarioDetalhe{
   double valor;
   int idsalario;
 
-  SalarioDetalhe(
+  SalarioDetalhe({
     this.idsalario_descricao,
     this.descricao,
     this.valor,
     this.idsalario
-  );
+  });
 
 }
